@@ -2,7 +2,7 @@
 
 Remove the comments in the code for easier debugging 
 
-Use case scenario;- 
+Use case scenario;-<BR> 
 departure = SIN
 destination = BKK
 departure_date = 2023-11-11
