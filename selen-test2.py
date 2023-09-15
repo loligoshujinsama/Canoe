@@ -7,6 +7,7 @@ import sys
 import pandas as pda
 import pprint
 import openpyxl
+import airportsdata
 
 departure="SIN"
 destination="BKK"
@@ -24,6 +25,7 @@ db={
 
 URL = f'https://www.kayak.com/flights/{departure}-{destination}/{dep_date}/{return_date}?sort=bestflight_a'
 print(URL)
+
 
 def provider():
     array_provider=[]
@@ -78,9 +80,15 @@ def debugger(a,b):
         print("Provider: "+str(a[i])+" Price: "+str(b[i]))
 
 def excel(a):
-    print(a)
     df = pda.DataFrame(a)
+
+    #Debugging
+    #print(df)
+    df = df.sort_values(by=["Price"])
     df.to_excel("H:/output.xlsx")
+    
+
+    #Note to user: xlsx must not be opened, or there will be permission issues
 
 if __name__ == '__main__':
     try:
@@ -95,7 +103,6 @@ if __name__ == '__main__':
         db["Provider"] = a1
         db["Price"] = a2
         excel(db)
-
         #Nicely print dictionary
         #pprint.pprint(db)
 
