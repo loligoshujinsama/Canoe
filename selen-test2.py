@@ -85,7 +85,7 @@ def excel(a):
     #Debugging
     #print(df)
     df = df.sort_values(by=["Price"])
-    df.to_excel("H:/output.xlsx")
+    df.to_excel("output.xlsx")
     
 
     #Note to user: xlsx must not be opened, or there will be permission issues
