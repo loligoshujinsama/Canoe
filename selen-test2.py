@@ -4,23 +4,25 @@ from selenium.webdriver.common.by import By
 import time
 import requests
 import sys
+import pandas as pda
+import pprint
+import openpyxl
 
-'''
 departure="SIN"
 destination="BKK"
 dep_date="2023-11-11"
-arrival_date="2023-11-11"
-'''
+return_date="2023-11-11"
 
+db={
+    "Provider":"",
+    "Price":"",
+    "Departure-time":"",
+    "Departure-airline":"",
+    "Return-time":"",
+    "Return-airline":""
+}
 
-departure=input("Departure location (e.g SIN/BKK): ")
-destination= input("Destination location (e.g SIN/BKK): ")
-dep_date=input("Date of departure? (e.g. 2023-11-11): ")
-arrival_date=input("Date of return? (e.g. 2023-11-11): ")
-
-db={}
-
-URL = f'https://www.kayak.com/flights/{departure}-{destination}/{dep_date}/{arrival_date}?sort=bestflight_a'
+URL = f'https://www.kayak.com/flights/{departure}-{destination}/{dep_date}/{return_date}?sort=bestflight_a'
 print(URL)
 
 def provider():
@@ -35,9 +37,50 @@ def price():
         array_price.append(element.text)
     return array_price
 
-def output(a,b):
+def flight_time_and_airline():
+    counter=[]
+    for element in driver.find_elements(By.CLASS_NAME, 'VY2U'):
+        counter.append(element.text)
+        flight_time_departure=[]
+        flight_time_return=[]
+        for i in range(len(counter)):
+            if i % 2 ==0:
+                flight_time_departure.append(counter[i])
+            else:
+                flight_time_return.append(counter[i])
+                
+    
+    #Extract flight time and airline
+    rt=[]
+    ra=[]
+    dt=[]
+    da=[]
+    for i in range(len(flight_time_return)):
+        temp=[]
+        temp=flight_time_return[i].split('\n')
+        rt.append(temp[0])
+        ra.append(temp[1])
+    
+    for i in range(len(flight_time_departure)):
+        temp=[]
+        temp=flight_time_departure[i].split('\n')
+        dt.append(temp[0])
+        da.append(temp[1])
+    
+    db["Return-time"]=rt
+    db["Return-airline"]=ra
+    db["Departure-time"]=dt
+    db["Departure-airline"]=da
+    return None
+
+def debugger(a,b):
     for i in range(len(a)):
         print("Provider: "+str(a[i])+" Price: "+str(b[i]))
+
+def excel(a):
+    print(a)
+    df = pda.DataFrame(a)
+    df.to_excel("H:/output.xlsx")
 
 if __name__ == '__main__':
     try:
@@ -47,16 +90,16 @@ if __name__ == '__main__':
         driver.get(URL)
         time.sleep(10)
         a1 = provider()
-        time.sleep(5)
         a2 = price()
-        time.sleep(5)
+        flight_time_and_airline()
+        db["Provider"] = a1
+        db["Price"] = a2
+        excel(db)
 
-        output(a1,a2)
+        #Nicely print dictionary
+        #pprint.pprint(db)
+
     except Exception as e:
+        driver.quit()
         print(e.args)
-        webdriver.close()
-
-    #Put this in a dictionary, so easier to parses data.
-    #Additionally, can also make several keys to invoke the data based on key
-
     
