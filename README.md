@@ -2,12 +2,6 @@
 
 Remove the comments in the code for easier debugging 
 
-departure = SIN
-
-destination = BKK
-
-departure_date = 2023-11-11
-
-return_date = 2023-11-11
+Updating selen-test-2 to apply changes soon
 
 To add dictionary for easier referencing and regex to scrape other websites asides kayak. To add Cloudflare and captcha evasion.
