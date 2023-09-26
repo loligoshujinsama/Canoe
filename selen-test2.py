@@ -1,31 +1,26 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import time
+import time as t
 import requests
+from datetime import *
 import sys
 import pandas as pda
-import pprint
 import openpyxl
-import airportsdata
+from selenium.webdriver.support.select import Select
+#import airportsdata
 
-departure="SIN"
-destination="BKK"
-dep_date="2023-11-11"
-return_date="2023-11-11"
+
+departure = sys.argv[1]
+destination = sys.argv[2]
+dep_date = sys.argv[3]
 
 db={
     "Provider":"",
     "Price":"",
     "Departure-time":"",
-    "Departure-airline":"",
-    "Return-time":"",
-    "Return-airline":""
+    "Departure-airline":""
 }
-
-URL = f'https://www.kayak.com/flights/{departure}-{destination}/{dep_date}/{return_date}?sort=bestflight_a'
-print(URL)
-
 
 def provider():
     array_provider=[]
@@ -44,24 +39,13 @@ def flight_time_and_airline():
     for element in driver.find_elements(By.CLASS_NAME, 'VY2U'):
         counter.append(element.text)
         flight_time_departure=[]
-        flight_time_return=[]
         for i in range(len(counter)):
-            if i % 2 ==0:
-                flight_time_departure.append(counter[i])
-            else:
-                flight_time_return.append(counter[i])
+            flight_time_departure.append(counter[i])
                 
-    
+
     #Extract flight time and airline
-    rt=[]
-    ra=[]
     dt=[]
     da=[]
-    for i in range(len(flight_time_return)):
-        temp=[]
-        temp=flight_time_return[i].split('\n')
-        rt.append(temp[0])
-        ra.append(temp[1])
     
     for i in range(len(flight_time_departure)):
         temp=[]
@@ -69,15 +53,22 @@ def flight_time_and_airline():
         dt.append(temp[0])
         da.append(temp[1])
     
-    db["Return-time"]=rt
-    db["Return-airline"]=ra
     db["Departure-time"]=dt
     db["Departure-airline"]=da
     return None
 
-def debugger(a,b):
-    for i in range(len(a)):
-        print("Provider: "+str(a[i])+" Price: "+str(b[i]))
+def dateAppender(dep_date):
+    format = '%Y-%m-%d'
+    dep_date = datetime.strptime(dep_date,format)
+
+    next7=[]
+    for i in range(7):
+        a = str(dep_date)
+        a=a.split(" ")
+        next7.append(a[0])
+        print(next7)
+        dep_date = dep_date + timedelta(days=1)
+    return next7
 
 def excel(a):
     df = pda.DataFrame(a)
@@ -85,7 +76,7 @@ def excel(a):
     #Debugging
     #print(df)
     df = df.sort_values(by=["Price"])
-    df.to_excel("output.xlsx")
+    df.to_excel("H:/output.xlsx")
     
 
     #Note to user: xlsx must not be opened, or there will be permission issues
@@ -93,20 +84,24 @@ def excel(a):
 if __name__ == '__main__':
     try:
         a = webdriver.ChromeOptions()
-        #a.add_argument('--headless')
         driver = webdriver.Chrome(options=a)
-        driver.get(URL)
-        time.sleep(10)
-        a1 = provider()
-        a2 = price()
-        flight_time_and_airline()
-        db["Provider"] = a1
-        db["Price"] = a2
-        excel(db)
-        #Nicely print dictionary
-        #pprint.pprint(db)
+        big_prov = []
+        big_price = []
+        for i in dateAppender(dep_date):
+            print(i)
+            URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
+
+            driver.get(URL)
+            t.sleep(10)
+            big_prov.extend(provider())
+            big_price.extend(price())
+            flight_time_and_airline()
+
+
+            db["Provider"] = big_prov
+            db["Price"] = big_price
+            excel(db)
 
     except Exception as e:
-        driver.quit()
         print(e.args)
     
