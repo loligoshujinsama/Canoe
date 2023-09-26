@@ -53,20 +53,20 @@ def flight_time_and_airline():
         dt.append(temp[0])
         da.append(temp[1])
     
-    db["Departure-time"]=dt
-    db["Departure-airline"]=da
-    return None
+    #db["Departure-time"]=dt
+    #db["Departure-airline"]=da
+
+    return dt, da
 
 def dateAppender(dep_date):
     format = '%Y-%m-%d'
     dep_date = datetime.strptime(dep_date,format)
 
     next7=[]
-    for i in range(7):
+    for i in range(28):
         a = str(dep_date)
         a=a.split(" ")
         next7.append(a[0])
-        print(next7)
         dep_date = dep_date + timedelta(days=1)
     return next7
 
@@ -79,28 +79,36 @@ def excel(a):
     df.to_excel("H:/output.xlsx")
     
 
-    #Note to user: xlsx must not be opened, or there will be permission issues
-
 if __name__ == '__main__':
     try:
         a = webdriver.ChromeOptions()
         driver = webdriver.Chrome(options=a)
         big_prov = []
         big_price = []
+        big_flighttime = []
+        big_airline = []
         for i in dateAppender(dep_date):
             print(i)
             URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
 
             driver.get(URL)
-            t.sleep(10)
+            t.sleep(5)
             big_prov.extend(provider())
+            #t.sleep(10)
             big_price.extend(price())
-            flight_time_and_airline()
+            #t.sleep(10)
+#            print(flight_time_and_airline())
+            dt, da = flight_time_and_airline()
+            big_flighttime.extend(dt)
+            big_airline.extend(da)
 
 
             db["Provider"] = big_prov
             db["Price"] = big_price
-            excel(db)
+            db["Departure-time"] = big_flighttime
+            db["Departure-airline"] = big_airline
+        excel(db)
+
 
     except Exception as e:
         print(e.args)
