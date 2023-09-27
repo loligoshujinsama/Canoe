@@ -8,8 +8,6 @@ import sys
 import pandas as pda
 import openpyxl
 from selenium.webdriver.support.select import Select
-#import airportsdata
-
 
 departure = sys.argv[1]
 destination = sys.argv[2]
@@ -42,7 +40,6 @@ def flight_time_and_airline():
         for i in range(len(counter)):
             flight_time_departure.append(counter[i])
                 
-
     #Extract flight time and airline
     dt=[]
     da=[]
@@ -52,10 +49,6 @@ def flight_time_and_airline():
         temp=flight_time_departure[i].split('\n')
         dt.append(temp[0])
         da.append(temp[1])
-    
-    #db["Departure-time"]=dt
-    #db["Departure-airline"]=da
-
     return dt, da
 
 def dateAppender(dep_date):
@@ -74,7 +67,6 @@ def excel(a):
     df = pda.DataFrame(a)
 
     #Debugging
-    #print(df)
     df = df.sort_values(by=["Price"])
     df.to_excel("H:/output.xlsx")
     
@@ -97,7 +89,7 @@ if __name__ == '__main__':
             #t.sleep(10)
             big_price.extend(price())
             #t.sleep(10)
-#            print(flight_time_and_airline())
+
             dt, da = flight_time_and_airline()
             big_flighttime.extend(dt)
             big_airline.extend(da)
