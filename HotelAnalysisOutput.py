@@ -19,7 +19,49 @@ import openpyxl
 # 5. Expected output is the best hotel on average, from there proceed to Pseudocode 1 to
 
 # PseudoCode3
-# Objective:
+# Objective: Generate a wordcloud based on the rating of the hotel
+# Read in from excel: hotel_name, hotel_rating
+# gen word cloud
+
+def WCHotelRating():
+    df = pd.read_excel("hotel.xlsx", index_col=0)
+    WCDic = {}
+    WCDic = df.to_dict()
+    ListOfHotels = []
+    ListOfHotels = WCDic.get("hotel_name")
+    ListOfHotels = [value for value in ListOfHotels.values()]
+    ListOfHotelRatings = []
+    ListOfHotelRatings = WCDic.get("hotel_rating")
+    ListOfHotelRatings = [value for value in ListOfHotelRatings.values()]
+
+    # Edit out bad records
+
+    ListOfHotelsCLEANED = []
+    ListOfHotelRatingsCLEANED = []
+    for eachhotel in range(len(ListOfHotels)):
+        if ListOfHotelRatings[eachhotel] != "No ratings found":
+            ListOfHotelsCLEANED.append(ListOfHotels[eachhotel])
+            ListOfHotelRatingsCLEANED.append(float(ListOfHotelRatings[eachhotel]))
+
+    # Combine both list into dic
+    mydic = dict(zip(ListOfHotelsCLEANED, ListOfHotelRatingsCLEANED))
+    print(mydic)
+
+    """
+    DicOfHotels = {}
+    count = 0
+    for Hotel in ListOfHotels:
+        if ListOfHotelRatings[count] == "No ratings found":
+            count += 1
+        else:
+            print(Hotel, ListOfHotels[count])
+            DicOfHotels[Hotel] = ListOfHotels[count]
+            DicOfHotels[Hotel][Hotel] = ListOfHotelRatings[count]
+            count += 1
+    """
+    wordcloud3 = generate_word_cloud(mydic)
+    wordcloud3.to_file("CLOUDHotelBasedOnRating.png")
+
 
 # Define a function to recommend hotel by rating
 def recommendedhotel():
@@ -40,7 +82,7 @@ def recommendedhotel():
         for eachhotel in range(len(ListOfHotelNames) + 1):
 
             if eachhotel == each:
-                #add the rating to this new list for calculating avg.
+                # add the rating to this new list for calculating avg.
                 TotalToAvg = TotalToAvg + int(ListOfHotelRating[CountForLoop])
                 AcceptedRating = AcceptedRating + 1
             CountForLoop = CountForLoop + 1
@@ -60,13 +102,11 @@ def recommendedhotel():
     return RecommendedHotelByRating
 
 
-
-
 # Define a function to generate a word cloud
 def generate_word_cloud(words):
     # Create a WordCloud object
     wordcloud = WordCloud(max_font_size=75)
-
+    print(words)
     # Generate the word cloud from the list of words
     wordcloud.generate_from_frequencies(words)
 
@@ -79,7 +119,9 @@ def read_in_excel_to_dic_for_wordcloud():
     TheDic = df.to_dict()
     return TheDic
 
+
 # START OF CODE
+WCHotelRating()
 testdic = {}
 testdic = read_in_excel_to_dic_for_wordcloud()
 DicRating = []
@@ -96,8 +138,7 @@ for each in DicRating:
     else:
         # good review
         listGoodReview.append(DicReview[each])
-print(listBadReview)
-print(listGoodReview)
+
 
 # Change list of sentences into list of words
 listBadReviewWord = []
@@ -113,7 +154,6 @@ for sent in listGoodReview:
     for thong in Thongs:
         if len(thong) > 1:
             listGoodReviewWord.append(thong)
-
 
 # Get the list of words
 # words = ["hello", "hello", "hello", "hello", "machine", "learning", "machine", "xd", "xd", "hello"]
@@ -133,7 +173,6 @@ for wrod in listGoodReviewWord:
         word_frequencies_good[wrod] += 1
     else:
         word_frequencies_good[wrod] = 1
-
 
 # Generate the word cloud
 wordcloud = generate_word_cloud(word_frequencies_bad)
