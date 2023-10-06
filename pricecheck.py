@@ -44,7 +44,7 @@ def airlineMedian(df):
 
 if __name__ == '__main__':
     try:
-        file = 'H:/output.xlsx'
+        file = 'output.xlsx'
         df = pd.read_excel(file)
         priceList = []
 
