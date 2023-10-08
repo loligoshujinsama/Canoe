@@ -23,6 +23,53 @@ import openpyxl
 # Read in from excel: hotel_name, hotel_rating
 # gen word cloud
 
+#PseudoCode4
+# Objective: Read in Excel, gen word cloud for positive
+# Get a list of all reviews based on variable airline(can hardcode for now)
+# get a list of every word in the reviews possible as long as they are positive (recommended yes)
+# output to word cloud (figure out specifics of how to remove later)
+
+#PS4
+def AirLineReview():
+    ListForWordCloudOutput = []
+    df = pd.read_csv("AirlineReviews.csv", index_col=0)
+    ReviewDic = {}
+    ReviewDic = df.to_dict()
+    ListOfAllReviews = []
+    ListOfAllReviews = ReviewDic.get("Review")
+    ListOfAllReviews = [value for value in ListOfAllReviews.values()]
+    ListOfRating = []
+    ListOfRating = ReviewDic.get("Recommended")
+    ListOfRating = [value2 for value2 in ListOfRating.values()]
+    ListOfPostiveReview = []
+    ListOfAirlineName = []
+    ListOfAirlineName = ReviewDic.get("AirlineName")
+    ListOfAirlineName = [value3 for value3 in ListOfAirlineName.values()]
+
+    for eachrating in range(len(ListOfRating)):
+
+        if ListOfRating[eachrating] == "yes" and ListOfAirlineName[eachrating] == "Wizz Air":
+            print(str(eachrating) + " " + ListOfRating[eachrating])
+            ListOfPostiveReview.append(ListOfAllReviews[eachrating])
+
+    # Clean the Data
+    listSentGoodRev = []
+    for eachsent in ListOfPostiveReview:
+        splitted = str(eachsent).split(" ")
+        for splitter in splitted:
+            if len(splitter) > 3:
+                listSentGoodRev.append(str(splitter))
+
+    wordfreqcheck = {}
+    for owrd in listSentGoodRev:
+        if owrd in wordfreqcheck:
+            wordfreqcheck[owrd] += 1
+        else:
+            wordfreqcheck[owrd] = 1
+
+    return wordfreqcheck
+
+#PS3
 def WCHotelRating():
     df = pd.read_excel("hotel.xlsx", index_col=0)
     WCDic = {}
@@ -45,7 +92,7 @@ def WCHotelRating():
 
     # Combine both list into dic
     mydic = dict(zip(ListOfHotelsCLEANED, ListOfHotelRatingsCLEANED))
-    print(mydic)
+
 
     """
     DicOfHotels = {}
@@ -106,7 +153,7 @@ def recommendedhotel():
 def generate_word_cloud(words):
     # Create a WordCloud object
     wordcloud = WordCloud(max_font_size=75)
-    print(words)
+
     # Generate the word cloud from the list of words
     wordcloud.generate_from_frequencies(words)
 
@@ -122,6 +169,8 @@ def read_in_excel_to_dic_for_wordcloud():
 
 # START OF CODE
 WCHotelRating()
+airdic = {}
+airdic = AirLineReview()
 testdic = {}
 testdic = read_in_excel_to_dic_for_wordcloud()
 DicRating = []
@@ -177,9 +226,11 @@ for wrod in listGoodReviewWord:
 # Generate the word cloud
 wordcloud = generate_word_cloud(word_frequencies_bad)
 wordcloud2 = generate_word_cloud(word_frequencies_good)
+wordcloud3 = generate_word_cloud(airdic)
 # Save the wordcloud into a png file
 wordcloud.to_file("CLOUDNegative.png")
 wordcloud2.to_file("CLOUDPositive.png")
+wordcloud3.to_file("TESTERPLSWORK.png")
 
 """
 # Display the word cloud (Maybe Testing only)
