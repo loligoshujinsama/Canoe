@@ -19,5 +19,5 @@ To-do:
   7. Hotel_suggestion page should contain hotel name, and wordcloud of hotel rating
   8. Changed 10 days to 7 days instead. <b>IMPT: when user selects the race date, need to be 7 days BEFORE. Currently taking in 7 days AFTER.</b>
 
-
+Idea - List down all the involved airlines. User click, will show the wordcloud for THAT airline, instead of wordclouding ALL airlines. (take some time)
 
