@@ -23,16 +23,23 @@ import openpyxl
 # Read in from excel: hotel_name, hotel_rating
 # gen word cloud
 
-#PseudoCode4
+# PseudoCode4
 # Objective: Read in Excel, gen word cloud for positive
 # Get a list of all reviews based on variable airline(can hardcode for now)
 # get a list of every word in the reviews possible as long as they are positive (recommended yes)
 # output to word cloud (figure out specifics of how to remove later)
 
-#PS4
+# PS4
 def AirLineReview():
     ListForWordCloudOutput = []
     df = pd.read_csv("AirlineReviews.csv", index_col=0)
+    df2 = pd.read_excel("ListOfBanned.xlsx", index_col=0)
+    DicOfBannedWordsLOL = {}
+    DicOfBannedWordsLOL = df2.to_dict()
+    ListOfBannedWordsLOL = []
+    ListOfBannedWordsLOL = DicOfBannedWordsLOL.get("word_banned")
+    ListOfBannedWordsLOL = [value3 for value3 in ListOfBannedWordsLOL.values()]
+    print(ListOfBannedWordsLOL)
     ReviewDic = {}
     ReviewDic = df.to_dict()
     ListOfAllReviews = []
@@ -57,8 +64,16 @@ def AirLineReview():
     for eachsent in ListOfPostiveReview:
         splitted = str(eachsent).split(" ")
         for splitter in splitted:
+            banthis = False
             if len(splitter) > 3:
-                listSentGoodRev.append(str(splitter))
+
+                for eachban in ListOfBannedWordsLOL:
+                    splitter = splitter.lower()
+                    if splitter == eachban:
+                        #It is a banned word dun append
+                        banthis = True
+                if banthis is False:
+                    listSentGoodRev.append(str(splitter))
 
     wordfreqcheck = {}
     for owrd in listSentGoodRev:
@@ -69,7 +84,8 @@ def AirLineReview():
 
     return wordfreqcheck
 
-#PS3
+
+# PS3
 def WCHotelRating():
     df = pd.read_excel("hotel.xlsx", index_col=0)
     WCDic = {}
@@ -92,7 +108,6 @@ def WCHotelRating():
 
     # Combine both list into dic
     mydic = dict(zip(ListOfHotelsCLEANED, ListOfHotelRatingsCLEANED))
-
 
     """
     DicOfHotels = {}
@@ -187,7 +202,6 @@ for each in DicRating:
     else:
         # good review
         listGoodReview.append(DicReview[each])
-
 
 # Change list of sentences into list of words
 listBadReviewWord = []
