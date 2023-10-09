@@ -17,7 +17,7 @@ To-do:
   5. Implement the wordcloud .png files to display to user
   6. Loading screen (OPTIONAL)
   7. Hotel_suggestion page should contain hotel name, and wordcloud of hotel rating
-  8. Changed 10 days to 7 days instead. IMPT: when user selects the race date, need to be 7 days BEFORE. Currently taking in 7 days AFTER.
+  8. Changed 10 days to 7 days instead. <b>IMPT: when user selects the race date, need to be 7 days BEFORE. Currently taking in 7 days AFTER.</b>
 
 
 
