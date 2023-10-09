@@ -1,8 +1,3 @@
-#https://www.geeksforgeeks.org/how-to-calculate-mape-in-python/
-#https://youtube.com/shorts/hS2IZOX1rmI?si=UuKxGh05bSt_H2aD
-#https://www.kaggle.com/code/prashant111/tutorial-time-series-forecasting-with-prophet
-#https://towardsdatascience.com/time-series-analysis-in-python-an-introduction-70d5a5b1d52a 
-
 import pandas as pda
 import matplotlib.pyplot as plt
 import numpy as np
