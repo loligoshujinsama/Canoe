@@ -1,5 +1,3 @@
-# https://www.imaginarycloud.com/blog/how-to-analyze-customer-reviews-with-nlp-case-study/
-
 from airline_review import *
 import string
 import nltk
