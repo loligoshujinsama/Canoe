@@ -8,6 +8,7 @@ Overhaul to codes:
   3. NLP is active, output as <Airline_name>.png file
 
 
+
 To-do:
   1. bar_graph.plot_bargraph month is hardcoded
   2. Hotel scraping to only activate after user click 'Hotel Suggestions'
@@ -16,6 +17,7 @@ To-do:
   5. Implement the wordcloud .png files to display to user
   6. Loading screen (OPTIONAL)
   7. Hotel_suggestion page should contain hotel name, and wordcloud of hotel rating
+  8. Changed 10 days to 7 days instead. IMPT: when user selects the race date, need to be 7 days BEFORE. Currently taking in 7 days AFTER.
 
 
 
