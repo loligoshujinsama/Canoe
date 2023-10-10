@@ -26,8 +26,9 @@ def provider(driver):
 def price(driver):
     array_price=[]
     for element in driver.find_elements(By.CLASS_NAME, 'f8F1-price-text'):
-        e = element.text.replace("$","")
-        array_price.append(int(e))
+        e = element.text.strip("$")
+        a = e.replace(",","")
+        array_price.append(int(a))
         #array_price.append(element.text)
     return array_price
 
@@ -63,7 +64,7 @@ def dateAppender(dep_date):
     dep_date = datetime.strptime(dep_date,format) 
 
     ### Debugging change duration value
-    duration = 2
+    duration = 1
 
     next=[]
     for i in range(duration):
