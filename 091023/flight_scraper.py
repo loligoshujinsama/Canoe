@@ -26,9 +26,9 @@ def provider(driver):
 def price(driver):
     array_price=[]
     for element in driver.find_elements(By.CLASS_NAME, 'f8F1-price-text'):
-        e = element.text.replace("$","")
-        array_price.append(int(e))
-        #array_price.append(element.text)
+        #e = element.text.replace("$","")
+        #array_price.append(int(e))
+        array_price.append(element.text)
     return array_price
 
 def flight_time_and_airline(driver):
