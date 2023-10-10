@@ -17,22 +17,28 @@
    </style>
 </head>
 <body>
-<h2>These are some of the suggestions and infographics based on your preferences!</h2>
+<h2>These are some of the flight suggestions and infographics based on selected race</h2>
     <div style="width: 1000; float:left; height:500; margin:10px">
-     <p>This is a line graph to show the following prices</p>
+     <p>Line graph depicting the trend of prices with respect to the median in the time period.</p>
      <iframe height="500" width="1000" src = "http://127.0.0.1:5000/static/line_graphtest.html"></iframe>
    </div>
    <div style="width: 1000; float:left; height:500; margin:10px">
-      <p>This is a bar graph to show the following prices</p>
+      <p>Bar graph depicting the averages prices categorized by airline.</p>
       <iframe height="500" width="1000" src = 'http://127.0.0.1:5000/static/bar_graphtest.html'></iframe>
    </div>
    <div style="width: 1000; float:left; height:500; margin:10px">
-      <p>Forecast of demand in the coming months</p>
+      <p>Forecast of flight demand in the coming months <i>(with respect to total departures from SIN)</i></p>
       <iframe height="500" width="1000" src = 'http://127.0.0.1:5000/static/predictive_analysis.html'></iframe>
    </div>
-
+   <ul>
+      {% for item in list_for_html %}
+          <li>
+            <a href="/wordcloud/{{ item }}" target="_blank">{{ item }}</a>
+          </li>
+      {% endfor %}
+  </ul>
    <div>
-      <a href="" target="_blank">Hotel Suggestions</a>
+      <a href="" target="_blank">Back to homepage</a>
    </div>
 </body>
 
