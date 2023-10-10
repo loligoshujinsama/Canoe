@@ -28,7 +28,7 @@ def price(driver):
     for element in driver.find_elements(By.CLASS_NAME, 'f8F1-price-text'):
         e = element.text.replace("$","")
         array_price.append(int(e))
-        # array_price.append(element.text)
+        #array_price.append(element.text)
     return array_price
 
 def flight_time_and_airline(driver):
@@ -79,7 +79,17 @@ def excel(db):
 
 def initiateScrape(departure, destination, dep_date):
     chrome_options = Options()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+    
+    '''
+    user_agents = [
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'
+    ]
+    '''
+
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     chrome_options.add_argument("--headless")
     # Cannot do headless user-agent, so we add ourselves :)
     chrome_options.add_argument(f'user-agent={user_agent}')
@@ -95,7 +105,7 @@ def initiateScrape(departure, destination, dep_date):
         URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
         driver.get(URL)
         print(i, URL)
-        t.sleep(6)
+        t.sleep(10)
         big_prov.extend(provider(driver))
         big_price.extend(price(driver))
         dt, da = flight_time_and_airline(driver)
