@@ -10,7 +10,6 @@ Overhaul to codes:
 
 
 To-do:
-  1. bar_graph.plot_bargraph month is hardcoded
   2. Hotel scraping to only activate after user click 'Hotel Suggestions'
   3. homepage to include F1 schedule inputs. Source is SIN by default
   4. Need to reference to full name of location (e.g. BKK should map to BANGKOK)
