@@ -7,6 +7,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from collections import Counter
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud 
+import os
 
 '''
     nltk.download('vader_lexicon')
@@ -72,51 +73,56 @@ def initiateNLP(dict, airline_name):
     moods_list = []
     print(f"Working on {airline_name} ...")
     try:
-        for i in range(len(df[airline_name])):
-            # get the review of index i
-            text = str(df[airline_name][i])
-            
-            # step 1: let's clean the text and assign cleaned list to dataFrame 
-            cleaned_text= sentiment_clean_text(text)
-            
-            #Step 2: sentiment Analysis
-            score = sentiment_analyze(cleaned_text)
-            moods_list.append(score)
+        path = f'static/{airline_name}.png'
+        if os.path.exists(path):
+            print("OK")
+            pass
+        else:
+            for i in range(len(df[airline_name])):
+                # get the review of index i
+                text = str(df[airline_name][i])
+                
+                # step 1: let's clean the text and assign cleaned list to dataFrame 
+                cleaned_text= sentiment_clean_text(text)
+                
+                #Step 2: sentiment Analysis
+                score = sentiment_analyze(cleaned_text)
+                moods_list.append(score)
 
-            # Step 3: advanced clean for emotions
-            cleaned_text_list = emotion_tokenise(cleaned_text)
-            df[airline_name][i] = cleaned_text_list
-            
-            # Step 4: emotion list builder
-            for word in emotion_dict.keys():
-                if word in cleaned_text_list:
-                    temp_emotion_list.append(emotion_dict[word])   
-            
-        '''
-        Bar graph:
-        fig, ax = plt.subplots()
-        ax.bar(mood, count)
-        fig.autofmt_xdate()
-        fig.set_figwidth(20)
-        fig.set_figheight(10)
-        plt.xlabel('Emotions')
-        plt.ylabel('Frequency')
-        '''
+                # Step 3: advanced clean for emotions
+                cleaned_text_list = emotion_tokenise(cleaned_text)
+                df[airline_name][i] = cleaned_text_list
+                
+                # Step 4: emotion list builder
+                for word in emotion_dict.keys():
+                    if word in cleaned_text_list:
+                        temp_emotion_list.append(emotion_dict[word])   
+                
+            '''
+            Bar graph:
+            fig, ax = plt.subplots()
+            ax.bar(mood, count)
+            fig.autofmt_xdate()
+            fig.set_figwidth(20)
+            fig.set_figheight(10)
+            plt.xlabel('Emotions')
+            plt.ylabel('Frequency')
+            '''
 
-        words_score_dict = Counter(temp_emotion_list) 
-        big_emotions = list((key, value) for (key, value) in words_score_dict.items())
-        mood = []
-        count = []
-        for key, value in big_emotions:
-            mood.append(key)
-            count.append(value)
+            words_score_dict = Counter(temp_emotion_list) 
+            big_emotions = list((key, value) for (key, value) in words_score_dict.items())
+            mood = []
+            count = []
+            for key, value in big_emotions:
+                mood.append(key)
+                count.append(value)
 
-        wordcloud = WordCloud(background_color='black', width=800, height=500, random_state=21, max_font_size=110).generate_from_frequencies(words_score_dict)
-        plt.figure(figsize=(10, 7)) 
-        plt.imshow(wordcloud, interpolation="bilinear") 
-        plt.axis('off') 
-        plt.savefig(f'static/{airline_name}.png', dpi=300, bbox_inches='tight')
-        print(f"{airline_name}.png created")
+            wordcloud = WordCloud(background_color='black', width=800, height=500, random_state=21, max_font_size=110).generate_from_frequencies(words_score_dict)
+            plt.figure(figsize=(10, 7)) 
+            plt.imshow(wordcloud, interpolation="bilinear") 
+            plt.axis('off') 
+            plt.savefig(f'static/{airline_name}.png', dpi=300, bbox_inches='tight')
+            print(f"{airline_name}.png created")
     except Exception as e:
         print(e)
         print(f"{airline_name} has no existing reviews")
