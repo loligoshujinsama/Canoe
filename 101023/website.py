@@ -9,7 +9,7 @@ import natural_lang
 import airline_review
 import pandas as pda
 from datetime import date
-from jinja2 import Template
+
 
 
 app = Flask(__name__, template_folder='templates')
@@ -58,7 +58,7 @@ def result():
         global destination
         global dep_date
 
-        # destination = request.form.get("dest")
+        destination = request.form.get("dest")
         # dep_date = request.form.get("date")
 
     global dict
@@ -67,7 +67,8 @@ def result():
     line_graph.plot_linegraph(df)
     bar_graph.plot_bargraph(df)
     list_for_html = airline_review.fetchAirlineReview(dict)[1]
-    return render_template("display.html", list_for_html = list_for_html)
+
+    return render_template("display.html", list_for_html = list_for_html, destination=destination)
 
 
 
