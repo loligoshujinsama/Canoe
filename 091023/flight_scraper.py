@@ -63,8 +63,10 @@ def dateAppender(dep_date):
     dep_date = datetime.strptime(dep_date,format) 
 
     ### Debugging change duration value
-    duration = 10
+    duration = 7
 
+    dep_date = dep_date + timedelta(days=-7)
+    print(dep_date)
     next=[]
     for i in range(duration):
         a = str(dep_date)
