@@ -8,7 +8,15 @@ def fetchAirlineReview(dict):
         if i in unique_airline:
             pass
         else:
-            unique_airline.append(i)
+            if ',' in i:
+                i = i.split(', ')
+                unique_airline.append(i[0])
+                unique_airline.append(i[1])
+            elif i == 'Multiple airlines':
+                pass
+            else:
+                unique_airline.append(i)
+            
 
     reviews = {}
     data = pda.read_csv("AirlineReviews.csv")
