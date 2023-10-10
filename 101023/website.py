@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from werkzeug.utils import secure_filename
 import requests
 import os
@@ -9,6 +9,7 @@ import natural_lang
 import airline_review
 import pandas as pda
 from datetime import date
+from jinja2 import Template
 
 
 app = Flask(__name__, template_folder='templates')
@@ -57,15 +58,17 @@ def result():
         global destination
         global dep_date
 
-        destination = request.form.get("dest")
+        # destination = request.form.get("dest")
         # dep_date = request.form.get("date")
 
+    global dict
     dict = flight_scraper.initiateScrape(departure, request.form["dest"], location[request.form["dest"]])
     df = flight_scraper.excel(dict)
     line_graph.plot_linegraph(df)
     bar_graph.plot_bargraph(df)
-    natural_lang.initiateNLP(dict)
-    return render_template("display.html")
+    list_for_html = airline_review.fetchAirlineReview(dict)[1]
+    return render_template("display.html", list_for_html = list_for_html)
+
 
 
 @app.route("/")
@@ -82,6 +85,11 @@ def bargraph():
 def predictive():
     return render_template('predictive_analysis.html')
 
+@app.route('/wordcloud/<item>')
+def wordcloud(item):
+    natural_lang.initiateNLP(dict, item)
+    image = f'static/{item}.png'
+    return send_file(image, mimetype= 'image/png')
 
 if __name__ == "__main__":
     app.run()
