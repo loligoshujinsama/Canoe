@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Welcome to Canoe! A flight and hotel recommendation site!</h1>
+<p>Please enter your dream destination and preferred dates to get started!</p>
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #e10600;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #eb4d49;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px 8px;
+}
+
+</style>
+<body>
+
+<div>
+  <form action="/" method = "POST">
+
+
+
+    <!--<label for="date">Date Of Travel</label>
+    <input type="date" name="date" id="date">
+
+
+    <input type="submit" value="Submit" name="submit">-->
+
+
+<div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button name="dest" style="background-image: url('../static/bahrain.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BAH"><strong>Bahrain</strong><br><br><span style="color: #e10600;">Sakhir</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/saudi.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="JED"><strong>Saudi Arabia</strong><br><br><span style="color: #e10600;">Jeddah</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/australia.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="MEL"><strong>Australia</strong><br><br><span style="color: #e10600;">Melbourne</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/japan.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="TYO"><strong>Japan</strong><br><br><span style="color: #e10600;">Suzuka</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/china.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SHA"><strong>China</strong><br><br><span style="color: #e10600;">Shanghai</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/miami.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="MIA"><strong>Miami</strong><br><br><span style="color: #e10600;">Miami</span>
+</button></p>
+</div>
+</div>
+<div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button name="dest" style="background-image: url('../static/emilia.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BLQ"><strong>Emilia Romagna</strong><br><br><span style="color: #e10600;">Imola</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/monaco.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="NCE"><strong>Monaco</strong><br><br><span style="color: #e10600;">Monaco</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/canada.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="YMQ"><strong>Canada</strong><br><br><span style="color: #e10600;">Montreal</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/spain.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BCN"><strong>Spain</strong><br><br><span style="color: #e10600;">Barcelona</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/austria.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="GRZ"><strong>Austria</strong><br><br><span style="color: #e10600;">Spielberg</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/UK.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LHR"><strong>United Kingdom</strong><br><br><span style="color: #e10600;">Silverstone</span>
+</button></p>
+</div>
+</div>
+    <div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button name="dest" style="background-image: url('../static/hungary.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BUD"><strong>Hungary</strong><br><br><span style="color: #e10600;">Budapest</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/belgium.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LGG"><strong>Belgium</strong><br><br><span style="color: #e10600;">Spa</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/netherlands.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AMS"><strong>Netherlands</strong><br><br><span style="color: #e10600;">Zandvoort</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/italy.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LIN"><strong>Italy</strong><br><br><span style="color: #e10600;">Monza</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/azerbaijan.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BAK"><strong>Azerbaijan</strong><br><br><span style="color: #e10600;">Baku</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/singapore.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SIN"><strong>Singapore</strong><br><br><span style="color: #e10600;">Singapore</span>
+</button></p>
+</div>
+</div>
+    <div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button name="dest" style="background-image: url('../static/USA.png');  width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AUS"><strong>USA</strong><br><br><span style="color: #e10600;">Austin</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/mexico.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="TLC"><strong>Mexico</strong><br><br><span style="color: #e10600;">Mexico City</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/brazil.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SAO"><strong>Brazil</strong><br><br><span style="color: #e10600;">Sao Paulo</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/vegas.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LAS"><strong>Las Vegas</strong><br><br><span style="color: #e10600;">Las Vegas</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/qatar.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="DOH"><strong>Qatar</strong><br><br><span style="color: #e10600;">Lusail</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button name="dest" style="background-image: url('../static/dhabi.png'); width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AUH"><strong>Abu Dhabi</strong><br><br><span style="color: #e10600;">Yas Marina</span>
+</button></p>
+</div>
+</div>
+  </form>
+</div>
+
+<!-- This is a comment. It won't be displayed in the browser. 
+<script>
+  document.getElementById('date').addEventListener('change', function() {
+      var dateInput = this.value;
+      var dateParts = dateInput.split('-');
+      var formattedDate = dateParts[2] + '-' + dateParts[0] + '-' + dateParts[1];
+      this.value = formattedDate;
+  });
+
+</script>
+-->
+</body>
+</body>
+</html>
