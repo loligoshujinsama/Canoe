@@ -32,6 +32,24 @@
    </div>
    <div style="width: 500; float:left;">
       <p>These are some recommended hotels at your destination!</p>
+      <img src="../static/CLOUDHotelBasedOnRating.png" width="600">
+      <p>Here are more Hotels you may like sorted by their rating: </p>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Rating</th>
+        </tr>
+        <ul>
+            {% for item in l1 %}
+               <li>{{ item }}</li>
+            {% endfor %}
+         </ul>
+         <ul>
+            {% for item in l2 %}
+               <li>{{ item }}</li>
+            {% endfor %}
+         </ul>
+         <p>{{ a }}</p>
    </div>
 
 
