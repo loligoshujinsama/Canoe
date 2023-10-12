@@ -22,12 +22,16 @@ def provider(driver):
     array_provider=[]
     e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
     e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
+    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
+    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
     for element in e:
         array_provider.append(element.text)
     return array_provider
 
 def price(driver):
     array_price=[]
+    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
+    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
     e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
     e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
     for element in e:
@@ -39,6 +43,8 @@ def price(driver):
 
 def flight_time_and_airline(driver):
     counter=[]
+    e = driver.find_elements(By.CLASS_NAME, 'VY2U')   
+    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
     e = driver.find_elements(By.CLASS_NAME, 'VY2U')   
     e = driver.find_elements(By.CLASS_NAME, 'VY2U')
     for element in e:
@@ -118,16 +124,19 @@ def initiateScrape(departure, destination, dep_date):
         print(i, URL)
         t.sleep(10)
         big_prov.extend(provider(driver))
-        t.sleep(3)
+        t.sleep(5)
         big_price.extend(price(driver))
-        t.sleep(3)
+        print(len(big_price))
+        print(len(big_prov))
+        t.sleep(5)
         dt, da = flight_time_and_airline(driver)
-        t.sleep(3)
+        t.sleep(5)
         big_flighttime.extend(dt)
+        print(len(big_flighttime))
         big_airline.extend(da)
         for j in range(len(provider(driver))):
             big_date.append(i)
-        t.sleep(3)
+        t.sleep(5)
         db["Provider"] = big_prov
         db["Price"] = big_price
         db["Time"] = big_flighttime
