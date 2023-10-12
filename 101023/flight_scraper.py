@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait
 import time as t
 from datetime import *
 import sys
@@ -19,13 +20,17 @@ db={
 
 def provider(driver):
     array_provider=[]
-    for element in driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name'):
+    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
+    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
+    for element in e:
         array_provider.append(element.text)
     return array_provider
 
 def price(driver):
     array_price=[]
-    for element in driver.find_elements(By.CLASS_NAME, 'f8F1-price-text'):
+    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
+    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
+    for element in e:
         e = element.text.strip("$")
         a = e.replace(",","")
         array_price.append(int(a))
@@ -34,7 +39,9 @@ def price(driver):
 
 def flight_time_and_airline(driver):
     counter=[]
-    for element in driver.find_elements(By.CLASS_NAME, 'VY2U'):
+    e = driver.find_elements(By.CLASS_NAME, 'VY2U')   
+    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
+    for element in e:
         counter.append(element.text)
         flight_time_departure=[]
         for i in range(len(counter)):
@@ -92,7 +99,7 @@ def initiateScrape(departure, destination, dep_date):
     ]
     '''
 
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'
     chrome_options.add_argument("--headless")
     # Cannot do headless user-agent, so we add ourselves :)
     chrome_options.add_argument(f'user-agent={user_agent}')
@@ -108,10 +115,13 @@ def initiateScrape(departure, destination, dep_date):
         URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
         driver.get(URL)
         print(i, URL)
-        driver.implicitly_wait(7)
+        driver.implicitly_wait(10)
         big_prov.extend(provider(driver))
+        driver.implicitly_wait(3)
         big_price.extend(price(driver))
+        driver.implicitly_wait(3)
         dt, da = flight_time_and_airline(driver)
+        driver.implicitly_wait(3)
         big_flighttime.extend(dt)
         big_airline.extend(da)
         for j in range(len(provider(driver))):
@@ -122,5 +132,5 @@ def initiateScrape(departure, destination, dep_date):
         db["Time"] = big_flighttime
         db["Airline"] = big_airline
         db["Date"] = big_date
-        driver.refresh()
+        #driver.refresh()
     return db
