@@ -92,5 +92,13 @@ def wordcloud(item):
     image = f'static/{item}.png'
     return send_file(image, mimetype= 'image/png')
 
+@app.route("/next")
+def hotel_page():
+    hotel_data = hotel_main.scrape_hotel_data(hotel_main.initialize_driver())
+    l1 = []
+    l2 = []
+    l1,l2 = hotel_main.excel(hotel_data)
+    return render_template("hotel_page.html", l1=l1, l2=l2)
+
 if __name__ == "__main__":
     app.run()
