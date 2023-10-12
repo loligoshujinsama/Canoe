@@ -12,9 +12,9 @@ from wordcloud import WordCloud
 #Format is: YYYY-MM-DD
 # hazel will pass me destination
 # hazel will pass me end_date, and i need to decrement by 1 day
-start_date = "2024-06-20"
+start_date = "2024-06-23"
 end_date = "2024-06-24"
-destination = "barcelona"
+destination = "seoul"
 url = f"https://www.expedia.com.sg/Hotel-Search?adults=1&children=&destination={destination}&endDate={end_date}&startDate={start_date}"
 
 def initialize_driver():
@@ -28,7 +28,7 @@ def initialize_driver():
 
 def scrape_hotel_data(driver):
     driver.get(url)
-    t.sleep(10)
+    t.sleep(40)
 
     name_list = []
     price_list = []
@@ -89,7 +89,8 @@ def WCHotelRating(df):
     # Combine both list into dic
     mydic = dict(zip(ListOfHotelsCLEANED, ListOfHotelRatingsCLEANED))
     wordcloud3 = generate_word_cloud(mydic)
-    wordcloud3.to_file("CLOUDHotelBasedOnRating.png")
+    #wordcloud3.to_file("CLOUDHotelBasedOnRating.png")
+    wordcloud3.to_file(r"C:\Users\joelc\Downloads\llgsjsm-1002-main\llgsjsm-1002-main\091023\static\CLOUDHotelBasedOnRating.png")
     
 def excel(data):
     db = {
@@ -99,8 +100,14 @@ def excel(data):
     }
     df = pd.DataFrame(db)
     WCHotelRating(df)
-    gettop10(df)
-
+    #top10_dic = {}
+    #top10_dic = gettop10(df)
+    l1 = []
+    l2 = []
+    l1, l2 = gettop10(df)
+    #print(top10_dic)
+    return l1,l2
+    
 def gettop10(df):
     DicOfRatings = {}
     DicOfRatings = df.to_dict()
@@ -136,11 +143,15 @@ def gettop10(df):
     Dic3Sprted = {}
     Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
     print(Dic3Sprted)
+    hotelnamelist = list(Dic3Sprted.keys())
+    hotelratinglist = list(Dic3Sprted.values())
+    return hotelnamelist, hotelratinglist
 
 def main():
     driver = initialize_driver()
     hotel_data = scrape_hotel_data(driver)
-    excel(hotel_data)
+    main_dic = {}
+    main_dic = excel(hotel_data)
     driver.quit()
 
 if __name__ == "__main__":
