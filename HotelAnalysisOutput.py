@@ -1,3 +1,5 @@
+import operator
+
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import pandas as pd
@@ -9,7 +11,6 @@ import openpyxl
 # 2. Save the data from excel into a dictionary
 # 3. Convert that dictionary into a wordcloud
 # 4. Save that wordcloud as a png.
-
 
 # PseudoCode2
 # 1. Read in data from excel
@@ -29,6 +30,53 @@ import openpyxl
 # get a list of every word in the reviews possible as long as they are positive (recommended yes)
 # output to word cloud (figure out specifics of how to remove later)
 
+# PseudoCode5
+# Objective: Read in Datatable. Get top 10 ratings with pricing
+# Arrange Based on rating
+#Create sorting algorithm
+
+#ps5
+#modify front part once integrate
+def gettop10():
+    df = pd.read_excel("hotel.xlsx", index_col=0)
+    DicOfRatings = {}
+    DicOfRatings = df.to_dict()
+    ListOfHotels = []
+    ListOfHotels = DicOfRatings.get("hotel_name")
+    ListOfHotels = [value for value in ListOfHotels.values()]
+    ListOfHotelRatings = []
+    ListOfHotelRatings = DicOfRatings.get("hotel_rating")
+    ListOfHotelRatings = [value for value in ListOfHotelRatings.values()]
+    ListOfHotelPrice = []
+    ListOfHotelPrice = DicOfRatings.get("hotel_price")
+    ListOfHotelPrice = [value for value in ListOfHotelPrice.values()]
+
+    ListTo2ndSortRATING = []
+    ListTo2ndSortHOTELNAME = []
+    ListTo2ndSortPRICE = []
+    #First Sort
+    Base = 5
+
+    for x in range(len(ListOfHotelRatings)):
+        if ListOfHotelRatings[x] != "No ratings found":
+            if float(ListOfHotelRatings[x]) > Base:
+                # Base = float(ListOfHotelRatings[x])
+                ListTo2ndSortRATING.append(ListOfHotelRatings[x])
+                ListTo2ndSortPRICE.append(ListOfHotelPrice[x])
+                ListTo2ndSortHOTELNAME.append(ListOfHotels[x])
+
+    # print(ListTo2ndSortPRICE, ListTo2ndSortRATING, ListTo2ndSortHOTELNAME)
+    #combine all 2 first to a dic maybe and compare?
+    Dic2 = dict(zip(ListTo2ndSortHOTELNAME, ListTo2ndSortRATING))
+    Dic2Sprted = {}
+    Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
+    Duc3Sprted = {}
+    Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
+    print(Dic3Sprted)
+gettop10()
+
+
+"""
 # PS4
 def AirLineReview():
     ListForWordCloudOutput = []
@@ -108,19 +156,6 @@ def WCHotelRating():
 
     # Combine both list into dic
     mydic = dict(zip(ListOfHotelsCLEANED, ListOfHotelRatingsCLEANED))
-
-    """
-    DicOfHotels = {}
-    count = 0
-    for Hotel in ListOfHotels:
-        if ListOfHotelRatings[count] == "No ratings found":
-            count += 1
-        else:
-            print(Hotel, ListOfHotels[count])
-            DicOfHotels[Hotel] = ListOfHotels[count]
-            DicOfHotels[Hotel][Hotel] = ListOfHotelRatings[count]
-            count += 1
-    """
     wordcloud3 = generate_word_cloud(mydic)
     wordcloud3.to_file("CLOUDHotelBasedOnRating.png")
 
@@ -246,10 +281,11 @@ wordcloud.to_file("CLOUDNegative.png")
 wordcloud2.to_file("CLOUDPositive.png")
 wordcloud3.to_file("TESTERPLSWORK.png")
 
-"""
+
 # Display the word cloud (Maybe Testing only)
 plt.figure(figsize=(10, 10))
 plt.imshow(wordcloud, interpolation="bilinear")
 plt.axis("off")
 plt.show()
+
 """
