@@ -71,13 +71,14 @@ def dateAppender(dep_date):
     dep_date = datetime.strptime(dep_date,format) 
 
     ### Debugging change duration value
-    duration = 7
+    duration = 5
 
     dep_date = dep_date + timedelta(days=-7)
-    print(dep_date)
+    #print(dep_date)
     next=[]
     for i in range(duration):
         a = str(dep_date)
+        print(a)
         a=a.split(" ")
         next.append(a[0])
         dep_date = dep_date + timedelta(days=1)
@@ -115,13 +116,13 @@ def initiateScrape(departure, destination, dep_date):
         URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
         driver.get(URL)
         print(i, URL)
-        driver.implicitly_wait(10)
+        t.sleep(10)
         big_prov.extend(provider(driver))
-        driver.implicitly_wait(3)
+        t.sleep(3)
         big_price.extend(price(driver))
-        driver.implicitly_wait(3)
+        t.sleep(3)
         dt, da = flight_time_and_airline(driver)
-        driver.implicitly_wait(3)
+        t.sleep(3)
         big_flighttime.extend(dt)
         big_airline.extend(da)
         for j in range(len(provider(driver))):
