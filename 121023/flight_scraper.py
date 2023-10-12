@@ -17,7 +17,7 @@ import openpyxl
 db = {
     "Provider": "",
     "Price": "",
-    "Time": "",
+    #"Time": "",
     "Airline": "",
     "Date": ""
 }
@@ -27,14 +27,14 @@ ignored_exceptions=(NoSuchElementException,StaleElementReferenceException,)
 def provider(driver):
     array_provider = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
-                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'M_JD-provider-name'))):
+                        .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@class='M_JD-provider-name']"))):
         array_provider.append(element.text)
     return array_provider
 
 def price(driver):
     array_price = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
-                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'f8F1-price-text'))):
+                        .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@class='f8F1-price-text']"))):
         e = element.text.strip("$")
         a = e.replace(",", "")
         array_price.append(int(a))
@@ -44,28 +44,26 @@ def price(driver):
 
 def flight_time_and_airline(driver):
     counter = []
+    airline = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
-                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'VY2U'))):
-        counter.append(element.text)
-        flight_time_departure = []
-        for i in range(len(counter)):
-            flight_time_departure.append(counter[i])
+                        .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@dir='auto']"))):
+            airline.append(element.text)
 
-    # Extract flight time and airline
-    dt = []
-    da = []
+    # # Extract flight time and airline
+    # dt = []
+    # da = []
 
-    for i in range(len(flight_time_departure)):
-        temp = []
-        temp = flight_time_departure[i].split('\n')
-        if len(temp) == 2:
-            dt.append(temp[0])
-            da.append(temp[1])
-        else:
-            dt.append(temp[0])
-            da.append(temp[2])
+    # for i in range(len(flight_time_departure)):
+    #     temp = []
+    #     temp = flight_time_departure[i].split('\n')
+    #     if len(temp) == 2:
+    #         dt.append(temp[0])
+    #         da.append(temp[1])
+    #     else:
+    #         dt.append(temp[0])
+    #         da.append(temp[2])
 
-    return dt, da
+    return airline
 
 
 ###Changes here###
@@ -121,7 +119,7 @@ def initiateScrape(departure, destination, dep_date):
        )
     big_prov = []
     big_price = []
-    big_flighttime = []
+    #big_flighttime = []
     big_airline = []
     big_date = []
 
@@ -134,21 +132,21 @@ def initiateScrape(departure, destination, dep_date):
         big_prov.extend(a)
         big_price.extend(price(driver))
         t.sleep(5)
-        dt, da = flight_time_and_airline(driver)
+        airline = flight_time_and_airline(driver)
         t.sleep(5)
-        big_flighttime.extend(dt)
-        big_airline.extend(da)
+        #big_flighttime.extend(dt)
+        big_airline.extend(airline)
         for j in range(len(a)):
             big_date.append(i)
         t.sleep(5)
         db["Provider"] = big_prov
         db["Price"] = big_price
-        db["Time"] = big_flighttime
+        #db["Time"] = big_flighttime
         db["Airline"] = big_airline
         db["Date"] = big_date
         print(len(big_airline))
         print(len(big_date))
-        print(len(big_flighttime))
+        #print(len(big_flighttime))
         print(len(big_price))
         print(len(big_prov))
         driver.refresh()
