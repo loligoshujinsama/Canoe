@@ -10,28 +10,28 @@ from wordcloud import WordCloud
 import os
 from datetime import *
 from pathlib import Path
+from selenium_stealth import stealth
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 STATIC_PATH = CURRENT_PATH + r'\static'
 PICTURE = Path(STATIC_PATH) / 'CLOUDHotelBasedOnRating.png'
 
-# Will need to change these values in future, now is just for testing purposes
-# Format is: YYYY-MM-DD
-# hazel will pass me destination
-# hazel will pass me end_date, and i need to decrement by 1 day
-# start_date = "2024-06-23"
-# end_date = "2024-06-24"
-# destination = "seoul"
-# url = f"https://www.expedia.com.sg/Hotel-Search?adults=1&children=&destination={destination}&endDate={end_date}&startDate={start_date}"
-
 
 def initialize_driver():
     options = Options()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36'
-    # options.add_argument("--headless=new")
-    options.add_argument(f'user-agent={user_agent}')
+    options.add_argument("--headless=new")
     options.add_argument('--log-level=3')
     driver = webdriver.Chrome(options=options)
+    # To bypass captcha :)
+    stealth(driver,
+       user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.105 Safari/537.36',
+       languages=["en-US", "en"],
+       vendor="Google Inc.",
+       platform="Win32",
+       webgl_vendor="Intel Inc.",
+       renderer="Intel Iris OpenGL Engine",
+       fix_hairline=True,
+       )
     return driver
 
 
@@ -51,17 +51,14 @@ def scrape_hotel_data(driver, destination, date):
     rating_list = []
 
     # search for all hotels based on the XPATH tied to each hotel block
-    hotel_elements = driver.find_elements(By.XPATH,
-                                          "//div[@class='uitk-layout-flex uitk-layout-flex-block-size-full-size uitk-layout-flex-flex-direction-column uitk-layout-flex-justify-content-space-between']")
+    hotel_elements = driver.find_elements(By.XPATH, "//div[@class='uitk-layout-flex uitk-layout-flex-block-size-full-size uitk-layout-flex-flex-direction-column uitk-layout-flex-justify-content-space-between']")
 
     # extract each hotel's name, price and rating under the hotel block
     for hotel_element in hotel_elements:
         try:
-            hotel_name = hotel_element.find_element(By.XPATH,
-                                                    ".//h3[@class='uitk-heading uitk-heading-5 overflow-wrap uitk-layout-grid-item uitk-layout-grid-item-has-row-start']")
+            hotel_name = hotel_element.find_element(By.XPATH, ".//h3[@class='uitk-heading uitk-heading-5 overflow-wrap uitk-layout-grid-item uitk-layout-grid-item-has-row-start']")
 
-            hotel_price = hotel_element.find_element(By.XPATH,
-                                                     ".//div[@class='uitk-text uitk-type-500 uitk-type-medium uitk-text-emphasis-theme']")
+            hotel_price = hotel_element.find_element(By.XPATH, ".//div[@class='uitk-text uitk-type-500 uitk-type-medium uitk-text-emphasis-theme']")
             price = hotel_price.text if hotel_price else 'Sold out'
 
             hotel_rating = hotel_element.find_elements(By.XPATH, ".//span[@class='uitk-badge-base-text']")
