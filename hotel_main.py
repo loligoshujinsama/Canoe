@@ -10,14 +10,16 @@ from wordcloud import WordCloud
 
 #Will need to change these values in future, now is just for testing purposes
 #Format is: YYYY-MM-DD
-start_date = "2024-07-25"
-end_date = "2024-07-29"
-destination = "bahrain"
+# hazel will pass me destination
+# hazel will pass me end_date, and i need to decrement by 1 day
+start_date = "2024-06-20"
+end_date = "2024-06-24"
+destination = "barcelona"
 url = f"https://www.expedia.com.sg/Hotel-Search?adults=1&children=&destination={destination}&endDate={end_date}&startDate={start_date}"
 
 def initialize_driver():
     options = Options()
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
+    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36'
     options.add_argument("--headless=new")
     options.add_argument(f'user-agent={user_agent}')
     options.add_argument('--log-level=3')
@@ -32,8 +34,10 @@ def scrape_hotel_data(driver):
     price_list = []
     rating_list = []
 
+    # search for all hotels based on the XPATH tied to each hotel block
     hotel_elements = driver.find_elements(By.XPATH, "//div[@class='uitk-layout-flex uitk-layout-flex-block-size-full-size uitk-layout-flex-flex-direction-column uitk-layout-flex-justify-content-space-between']")
     
+    # extract each hotel's name, price and rating under the hotel block
     for hotel_element in hotel_elements:
         try:
             hotel_name = hotel_element.find_element(By.XPATH, ".//h3[@class='uitk-heading uitk-heading-5 overflow-wrap uitk-layout-grid-item uitk-layout-grid-item-has-row-start']")
@@ -47,6 +51,7 @@ def scrape_hotel_data(driver):
             name_list.append(hotel_name.text)
             price_list.append(price)
             rating_list.append(rating)
+        # if hotel is sold out, just ignore the data for that hotel and carry on
         except NoSuchElementException:
             pass
 
@@ -63,7 +68,6 @@ def generate_word_cloud(words):
     return wordcloud
 
 def WCHotelRating(df):
-    #df = pd.read_excel("hotel.xlsx", index_col=0)
     WCDic = {}
     WCDic = df.to_dict()
     ListOfHotels = []
@@ -95,7 +99,43 @@ def excel(data):
     }
     df = pd.DataFrame(db)
     WCHotelRating(df)
-    #df.to_excel("hotel.xlsx")
+    gettop10(df)
+
+def gettop10(df):
+    DicOfRatings = {}
+    DicOfRatings = df.to_dict()
+    ListOfHotels = []
+    ListOfHotels = DicOfRatings.get("hotel_name")
+    ListOfHotels = [value for value in ListOfHotels.values()]
+    ListOfHotelRatings = []
+    ListOfHotelRatings = DicOfRatings.get("hotel_rating")
+    ListOfHotelRatings = [value for value in ListOfHotelRatings.values()]
+    ListOfHotelPrice = []
+    ListOfHotelPrice = DicOfRatings.get("hotel_price")
+    ListOfHotelPrice = [value for value in ListOfHotelPrice.values()]
+
+    ListTo2ndSortRATING = []
+    ListTo2ndSortHOTELNAME = []
+    ListTo2ndSortPRICE = []
+    #First Sort
+    Base = 5
+
+    for x in range(len(ListOfHotelRatings)):
+        if ListOfHotelRatings[x] != "No ratings found":
+            if float(ListOfHotelRatings[x]) > Base:
+                # Base = float(ListOfHotelRatings[x])
+                ListTo2ndSortRATING.append(ListOfHotelRatings[x])
+                ListTo2ndSortPRICE.append(ListOfHotelPrice[x])
+                ListTo2ndSortHOTELNAME.append(ListOfHotels[x])
+
+    # print(ListTo2ndSortPRICE, ListTo2ndSortRATING, ListTo2ndSortHOTELNAME)
+    #combine all 2 first to a dic maybe and compare?
+    Dic2 = dict(zip(ListTo2ndSortHOTELNAME, ListTo2ndSortRATING))
+    Dic2Sprted = {}
+    Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
+    Dic3Sprted = {}
+    Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
+    print(Dic3Sprted)
 
 def main():
     driver = initialize_driver()
