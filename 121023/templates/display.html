@@ -3,6 +3,7 @@
 <html>
 <head>
    <title>Canoe</title>
+    <img src="../static/car.png" width="110px" height="110px">
    <style type=text/css>
       p {
 
@@ -33,6 +34,7 @@ a:hover, a:active {
 ul {
     display: flex;
     list-style: none;
+    white-space: nowrap;
 
 
 }
@@ -45,27 +47,27 @@ li:not(:last-child) {
    </style>
 </head>
 <body>
-<h2 style="font-family: 'andale mono', monospace;">These are some of the suggestions and infographics based on your preferences!</h2>
-    <p style="font-family: 'andale mono', monospace;">Selected race: {{ destination }}</p>
+
+<h1 style="padding-left: 130px; margin-top: -90px; font-family: 'andale mono', monospace;">These are some of the suggestions and infographics based on your preferences!</h1>
+    <p style="font-family: 'andale mono', monospace; padding-top: 20px;">Selected race venue: {{ destination }}</p>
     <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
-     <p style="font-family: 'andale mono', monospace;">This is a line graph to show the following prices</p>
+     <p style="font-family: 'andale mono', monospace;">Interested in the current price trends?</p>
      <iframe height="500" width="1000" style="border-radius: 30px; " src = "http://127.0.0.1:5000/static/line_graphtest.html"></iframe>
    </div>
    <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
-      <p style="font-family: 'andale mono', monospace;">This is a bar graph to show the following prices</p>
+      <p style="font-family: 'andale mono', monospace;">Compare your available prices!</p>
       <iframe height="500" width="1000" style="border-radius: 30px;" src = 'http://127.0.0.1:5000/static/bar_graphtest.html'></iframe>
    </div>
    <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
-      <p style="font-family: 'andale mono', monospace;">Forecast of demand in the coming months</p>
+      <p style="font-family: 'andale mono', monospace;">Care to look into the future?</p>
       <iframe height="500" width="1000" style="border-radius: 30px;" src = 'http://127.0.0.1:5000/static/predictive_analysis.html'></iframe>
    </div>
 
 
 
 
-
-<div style="text-align: center; padding-top: 30px; padding-bottom: 50px; font-size: 16px;">
-    <p style="text-align: center; font-family: 'andale mono', monospace;">These are some useful reviews for the respective Airlines!</p>
+<p style="text-align: center; font-family: 'andale mono', monospace; padding-top: 30px;">These are some useful reviews for the respective Airlines!</p>
+<div style="text-align: center; font-size: 16px;  overflow: auto;">
    <ul>
       {% for item in list_for_html %}
           <li>
@@ -75,8 +77,8 @@ li:not(:last-child) {
   </ul>
     </div>
 
- <div style="text-align: center; padding-bottom: 50px;">
-       <p style="text-align: center; font-family: 'andale mono', monospace;">Looking for a hotel nearby?</p>
+ <div style="text-align: center; padding-top: 30px; padding-bottom: 50px;">
+       <p style="text-align: center; font-family: 'andale mono', monospace;">Looking for a Hotel nearby?</p>
       <a href="/next" target="_blank" style="color: #000000;">Find a Hotel</a>
    </div>
 </body>
