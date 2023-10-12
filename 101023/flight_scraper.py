@@ -123,7 +123,8 @@ def initiateScrape(departure, destination, dep_date):
         driver.get(URL)
         print(i, URL)
         t.sleep(10)
-        big_prov.extend(provider(driver))
+        a = provider(driver)
+        big_prov.extend(a)
         t.sleep(5)
         big_price.extend(price(driver))
         print(len(big_price))
@@ -134,7 +135,7 @@ def initiateScrape(departure, destination, dep_date):
         big_flighttime.extend(dt)
         print(len(big_flighttime))
         big_airline.extend(da)
-        for j in range(len(provider(driver))):
+        for j in range(len(a)):
             big_date.append(i)
         t.sleep(5)
         db["Provider"] = big_prov
