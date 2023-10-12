@@ -144,7 +144,8 @@ def gettop10(df):
     ListTo2ndSortRATING = []
     ListTo2ndSortHOTELNAME = []
     ListTo2ndSortPRICE = []
-    # First Sort
+    ListTo2ndSortCOMBINEDHOTELNAMEPRICE = []
+    #First Sort
     Base = 5
 
     for x in range(len(ListOfHotelRatings)):
@@ -154,12 +155,14 @@ def gettop10(df):
                 ListTo2ndSortRATING.append(ListOfHotelRatings[x])
                 ListTo2ndSortPRICE.append(ListOfHotelPrice[x])
                 ListTo2ndSortHOTELNAME.append(ListOfHotels[x])
+                ListTo2ndSortCOMBINEDHOTELNAMEPRICE.append(str(ListOfHotels[x]) + "  " + str(ListTo2ndSortPRICE[x]))
 
     # print(ListTo2ndSortPRICE, ListTo2ndSortRATING, ListTo2ndSortHOTELNAME)
-    # combine all 2 first to a dic maybe and compare?
-    Dic2 = dict(zip(ListTo2ndSortHOTELNAME, ListTo2ndSortRATING))
+    #combine all 2 first to a dic maybe and compare?
+     #Dic2 = dict(zip(ListTo2ndSortHOTELNAME, ListTo2ndSortRATING))
+    Dic2 = dict(zip(ListTo2ndSortCOMBINEDHOTELNAMEPRICE, ListTo2ndSortRATING))
     Dic2Sprted = {}
-    Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1], reverse=True)
+    Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
     Dic3Sprted = {}
     Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
     print(Dic3Sprted)
