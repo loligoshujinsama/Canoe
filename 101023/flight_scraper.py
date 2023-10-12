@@ -143,5 +143,5 @@ def initiateScrape(departure, destination, dep_date):
         db["Time"] = big_flighttime
         db["Airline"] = big_airline
         db["Date"] = big_date
-        #driver.refresh()
+        driver.refresh()
     return db
