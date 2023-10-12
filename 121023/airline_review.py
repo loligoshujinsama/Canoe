@@ -9,8 +9,15 @@ def fetchAirlineReview(dict):
         if i in unique_airline:
             pass
         else:
-            if i == 'Multiple airlines' or ',' in i:
+            if i == 'Multiple airlines'in i:
                 pass
+            elif ',' in i:
+                i = i.split(', ')
+                for i2 in i:
+                    if i2 in unique_airline:
+                        pass
+                    else:
+                        unique_airline.append(i2)
             else:
                 unique_airline.append(i)
 
