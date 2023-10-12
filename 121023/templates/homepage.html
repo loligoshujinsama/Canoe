@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<body>
+<title>Canoe</title>
+<img src="../static/car.png" width="110px" height="110px">
+<h1 style="padding-left: 130px; margin-top: -80px; font-family: 'andale mono', monospace;">Welcome to Canoe! A flight and hotel recommendation site!</h1>
+
+<p style="font-family: 'andale mono', monospace; font-size: 20px;">Select your race!</p>
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #e10600;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #eb4d49;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px 8px;
+}
+
+.button {
+    color: #e10600;
+}
+
+.button:hover {
+  color: #000000;
+  opacity: 0.6;
+
+</style>
+<body>
+
+<div style="border-radius: 30px;">
+  <form action="/" method = "POST">
+
+
+
+    <!--<label for="date">Date Of Travel</label>
+    <input type="date" name="date" id="date">
+
+
+    <input type="submit" value="Submit" name="submit">-->
+
+
+<div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BAH"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Bahrain</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Sakhir</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="JED"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Saudi Arabia</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Jeddah</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="MEL"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Australia</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Melbourne</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="TYO"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Japan</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Suzuka</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SHA"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">China</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Shanghai</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="MIA"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Miami</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Miami</span>
+</button></p>
+</div>
+</div>
+<div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BLQ"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Emilia Romagna</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Imola</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="NCE"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Monaco</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Monaco</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="YMQ"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Canada</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Montreal</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BCN"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Spain</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Barcelona</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="GRZ"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Austria</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Spielberg</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LHR"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">United Kingdom</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Silverstone</span>
+</button></p>
+</div>
+</div>
+    <div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BUD"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Hungary</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Budapest</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LGG"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Belgium</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Spa</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AMS"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Netherlands</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Zandvoort</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LIN"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Italy</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Monza</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="BAK"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Azerbaijan</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Baku</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SIN"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Singapore</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Singapore</span>
+</button></p>
+</div>
+</div>
+    <div class="row" style="display: grid; overflow: auto;">
+<div class="column" style="display: flex;">
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF;  width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AUS"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">USA</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Austin</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="TLC"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Mexico</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Mexico City</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="SAO"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Brazil</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Sao Paulo</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="LAS"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Las Vegas</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Las Vegas</span>
+</button></p>
+<p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="DOH"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Qatar</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;">Lusail</span>
+</button></p>
+  <p>&nbsp; &nbsp; &nbsp;</p>
+<p><button class="button" name="dest" style="background-image: url('../static/f1.png'); background-size: 185px; background-color: #FFFFFF; width: 190px; height: 150px; border-radius: 12px; border: 2px solid #e10600;" value="AUH"><strong style="font-family: 'andale mono', monospace; font-size: 20px; background-color: #ffffff;">Abu Dhabi</strong><br><br><span style="color: #000000; font-family: 'andale mono', monospace; font-size: 15px;: #e10600;">Yas Marina</span>
+</button></p>
+</div>
+</div>
+  </form>
+</div>
+
+<!-- This is a comment. It won't be displayed in the browser. 
+<script>
+  document.getElementById('date').addEventListener('change', function() {
+      var dateInput = this.value;
+      var dateParts = dateInput.split('-');
+      var formattedDate = dateParts[2] + '-' + dateParts[0] + '-' + dateParts[1];
+      this.value = formattedDate;
+  });
+
+</script>
+-->
+</body>
+</body>
+</html>

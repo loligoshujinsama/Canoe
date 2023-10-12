@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+   <title>Canoe</title>
+   <style type=text/css>
+      p {
+
+         font-size: 20px;
+         margin: 8px;
+      }
+      div {
+         color: black;
+         margin: 4px;
+         font-size: 25px;
+      }
+
+      a:link, a:visited {
+  background-color: #ffffff;
+  border: 2px solid #e10600;
+  border-radius: 25px;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'andale mono', monospace;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: #e10600;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+
+
+}
+
+li:not(:last-child) {
+    margin-right: 10px;
+
+}
+
+   </style>
+</head>
+<body>
+<h2 style="font-family: 'andale mono', monospace;">These are some of the suggestions and infographics based on your preferences!</h2>
+    <p style="font-family: 'andale mono', monospace;">Selected race: {{ destination }}</p>
+    <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
+     <p style="font-family: 'andale mono', monospace;">This is a line graph to show the following prices</p>
+     <iframe height="500" width="1000" style="border-radius: 30px; " src = "http://127.0.0.1:5000/static/line_graphtest.html"></iframe>
+   </div>
+   <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
+      <p style="font-family: 'andale mono', monospace;">This is a bar graph to show the following prices</p>
+      <iframe height="500" width="1000" style="border-radius: 30px;" src = 'http://127.0.0.1:5000/static/bar_graphtest.html'></iframe>
+   </div>
+   <div style="width: 1000; height:500; margin:10px; padding-top: 30px;">
+      <p style="font-family: 'andale mono', monospace;">Forecast of demand in the coming months</p>
+      <iframe height="500" width="1000" style="border-radius: 30px;" src = 'http://127.0.0.1:5000/static/predictive_analysis.html'></iframe>
+   </div>
+
+
+
+
+
+<div style="text-align: center; padding-top: 30px; padding-bottom: 50px; font-size: 16px;">
+    <p style="text-align: center; font-family: 'andale mono', monospace;">These are some useful reviews for the respective Airlines!</p>
+   <ul>
+      {% for item in list_for_html %}
+          <li>
+            <a href="/wordcloud/{{ item }}" target="_blank" style="color: #000000;">{{ item }}</a>
+          </li>
+      {% endfor %}
+  </ul>
+    </div>
+
+ <div style="text-align: center; padding-bottom: 50px;">
+       <p style="text-align: center; font-family: 'andale mono', monospace;">Looking for a hotel nearby?</p>
+      <a href="/next" target="_blank" style="color: #000000;">Find a Hotel</a>
+   </div>
+</body>
+
+</html>
