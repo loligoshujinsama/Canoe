@@ -43,7 +43,6 @@ def scrape_hotel_data(driver, destination, date):
     start_date = str(start_date).split(' ')
     url = f"https://www.expedia.com.sg/Hotel-Search?adults=1&children=&destination={destination}&endDate={end_date}&startDate={start_date[0]}"
     driver.get(url)
-    print(url)
     t.sleep(10)
 
     name_list = []
