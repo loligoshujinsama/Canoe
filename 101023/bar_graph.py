@@ -2,9 +2,14 @@ import pandas as pd
 import openpyxl
 import plotly.graph_objects as go
 from datetime import *
+import os
+from pathlib import Path
 
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
+STATIC_PATH = CURRENT_PATH + r'\static'
+HTML_GRAPH = Path(STATIC_PATH) / 'bar_graphtest.html'
 TAB = '    '
-HTML_GRAPH = r"C:\Users\Lucas\PycharmProjects\ICT1002_Assignment\venv\bar_graphtest.html"  # CHANGE THIS
+#HTML_GRAPH = r"C:\Users\Lucas\PycharmProjects\ICT1002_Assignment\venv\real\static\bar_graphtest.html"  # CHANGE THIS
 
 
 def custom_median(values):
@@ -35,7 +40,7 @@ def bargraph(df, cheap, expensive):
     cheap_prices = df['min']
     expensive_prices = df['max']
     fig.add_trace(go.Bar(
-        y=df['Airline'],
+        y=df['Airline'],    
         x=df['Price'],
         orientation='h',
     ))
