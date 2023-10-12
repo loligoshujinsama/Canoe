@@ -108,7 +108,7 @@ def initiateScrape(departure, destination, dep_date):
         URL = f'https://www.kayak.com/flights/{departure}-{destination}/{i}?sort=bestflight_a'
         driver.get(URL)
         print(i, URL)
-        t.sleep(10)
+        driver.implicitly_wait(7)
         big_prov.extend(provider(driver))
         big_price.extend(price(driver))
         dt, da = flight_time_and_airline(driver)
@@ -116,7 +116,7 @@ def initiateScrape(departure, destination, dep_date):
         big_airline.extend(da)
         for j in range(len(provider(driver))):
             big_date.append(i)
-
+        t.sleep(3)
         db["Provider"] = big_prov
         db["Price"] = big_price
         db["Time"] = big_flighttime
