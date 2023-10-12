@@ -4,6 +4,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium_stealth import stealth
 import time as t
 from datetime import *
 import sys
@@ -18,25 +22,19 @@ db = {
     "Date": ""
 }
 
+ignored_exceptions=(NoSuchElementException,StaleElementReferenceException,)
 
 def provider(driver):
     array_provider = []
-    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
-    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
-    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
-    e = driver.find_elements(By.CLASS_NAME, 'M_JD-provider-name')
-    for element in e:
+    for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
+                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'M_JD-provider-name'))):
         array_provider.append(element.text)
     return array_provider
 
-
 def price(driver):
     array_price = []
-    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
-    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
-    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
-    e = driver.find_elements(By.CLASS_NAME, 'f8F1-price-text')
-    for element in e:
+    for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
+                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'f8F1-price-text'))):
         e = element.text.strip("$")
         a = e.replace(",", "")
         array_price.append(int(a))
@@ -46,11 +44,8 @@ def price(driver):
 
 def flight_time_and_airline(driver):
     counter = []
-    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
-    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
-    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
-    e = driver.find_elements(By.CLASS_NAME, 'VY2U')
-    for element in e:
+    for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
+                        .until(expected_conditions.presence_of_all_elements_located((By.CLASS_NAME, 'VY2U'))):
         counter.append(element.text)
         flight_time_departure = []
         for i in range(len(counter)):
@@ -80,7 +75,7 @@ def dateAppender(dep_date):
     dep_date = datetime.strptime(dep_date, format)
 
     ### Debugging change duration value
-    duration = 2
+    duration = 5
 
     dep_date = dep_date + timedelta(days=-7)
     # print(dep_date)
@@ -100,6 +95,7 @@ def excel(db):
 
 
 def initiateScrape(departure, destination, dep_date):
+    
     chrome_options = Options()
 
     '''
@@ -110,13 +106,19 @@ def initiateScrape(departure, destination, dep_date):
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'
     ]
     '''
-
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36'
     chrome_options.add_argument("--headless")
     # Cannot do headless user-agent, so we add ourselves :)
-    chrome_options.add_argument(f'user-agent={user_agent}')
     chrome_options.add_argument('--log-level=3')
     driver = webdriver.Chrome(options=chrome_options)
+    stealth(driver,
+       user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.105 Safari/537.36',
+       languages=["en-US", "en"],
+       vendor="Google Inc.",
+       platform="Win32",
+       webgl_vendor="Intel Inc.",
+       renderer="Intel Iris OpenGL Engine",
+       fix_hairline=True,
+       )
     big_prov = []
     big_price = []
     big_flighttime = []
@@ -130,15 +132,11 @@ def initiateScrape(departure, destination, dep_date):
         t.sleep(10)
         a = provider(driver)
         big_prov.extend(a)
-        t.sleep(5)
         big_price.extend(price(driver))
-        print(len(big_price))
-        print(len(big_prov))
         t.sleep(5)
         dt, da = flight_time_and_airline(driver)
         t.sleep(5)
         big_flighttime.extend(dt)
-        print(len(big_flighttime))
         big_airline.extend(da)
         for j in range(len(a)):
             big_date.append(i)
@@ -148,5 +146,10 @@ def initiateScrape(departure, destination, dep_date):
         db["Time"] = big_flighttime
         db["Airline"] = big_airline
         db["Date"] = big_date
+        print(len(big_airline))
+        print(len(big_date))
+        print(len(big_flighttime))
+        print(len(big_price))
+        print(len(big_prov))
         driver.refresh()
     return db
