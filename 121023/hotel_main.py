@@ -155,7 +155,9 @@ def gettop10(df):
                 ListTo2ndSortRATING.append(ListOfHotelRatings[x])
                 ListTo2ndSortPRICE.append(ListOfHotelPrice[x])
                 ListTo2ndSortHOTELNAME.append(ListOfHotels[x])
-                ListTo2ndSortCOMBINEDHOTELNAMEPRICE.append(str(ListOfHotels[x]) + "  " + str(ListTo2ndSortPRICE[x]))
+                ForCombine = ""
+                ForCombine = str(ListOfHotels[x]) + "  " + str(ListOfHotelPrice[x])
+                ListTo2ndSortCOMBINEDHOTELNAMEPRICE.append(ForCombine)
 
     # print(ListTo2ndSortPRICE, ListTo2ndSortRATING, ListTo2ndSortHOTELNAME)
     #combine all 2 first to a dic maybe and compare?
