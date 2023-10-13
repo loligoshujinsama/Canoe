@@ -125,7 +125,7 @@ def predictiveB(list):
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound'))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound'))
-    fig.update_layout(title='Forecasted total number of global departures')
+    fig.update_layout(title='Forecasted total number of global departures (in millions)')
     model.plot_components(forecast)
 
     # Line trend
