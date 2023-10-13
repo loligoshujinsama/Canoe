@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ggplot import *
 import warnings
-
 warnings.filterwarnings('ignore')
 from sklearn.linear_model import LinearRegression
 from prophet import Prophet
@@ -126,10 +125,13 @@ def predictiveB(list):
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound'))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound'))
-
+    fig.update_layout(title='Forecasted total number of global departures')
     model.plot_components(forecast)
 
     # Line trend
     # a = add_changepoints_to_plot(fig.gca(), model, #forecast)
     # print(model.changepoints)
     fig.write_html(HTML_FILE)
+
+if __name__ == "__main__":
+    predictiveB(clean())
