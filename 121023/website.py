@@ -7,11 +7,10 @@ import line_graph
 import flight_scraper
 import natural_lang
 import airline_review
+import predictive_analysis
 import hotel_main
 import pandas as pda
 from datetime import date
-
-
 
 app = Flask(__name__, template_folder='templates')
 
@@ -42,6 +41,33 @@ location = {
       "AUH":"2024-12-08"
 }
 
+mapper = {
+    'BAH':'bahrain',
+    'JED':'jeddah',
+    'MEL':'melbourne',
+    'TYO':'tokyo',
+    'SHA':'shanghai',
+    'MIA':'miami',
+    'BLQ':'imola',
+    'NCE':'monaco',
+    'YMQ':'montreal',
+    'BCN':'barcelona',
+    'GRZ':'spielberg',
+    'LHR':'silverstone',
+    'BUD':'budapest',
+    'LGG':'liege',
+    'AMS':'amsterdam',
+    'LIN':'monza',
+    'BAK':'baku',
+    'SIN':'singapore',
+    'AUS':'austin',
+    'TLC':'mexico-city',
+    'SAO':'sao-paolo',
+    'LAS':'las-vegas',
+    'DOH':'lusail',
+    'AUH':'yas-marina'
+}
+
 @app.route("/")
 def home():
     return render_template('homepage.html')
@@ -62,13 +88,14 @@ def result():
         destination = request.form.get("dest")
         dep_date = request.form.get("date")
 
+    print("Chosen destination: "+ mapper[destination])
     global dict
     dict = flight_scraper.initiateScrape(departure, request.form["dest"], location[request.form["dest"]])
     df = flight_scraper.excel(dict)
     line_graph.plot_linegraph(df)
     bar_graph.plot_bargraph(df)
+    #predictive_analysis.predictiveB(predictive_analysis.clean())
     list_for_html = airline_review.fetchAirlineReview(dict)[1]
-    print(list_for_html)
 
     return render_template("display.html", list_for_html = list_for_html, destination=destination)
 
@@ -96,7 +123,7 @@ def wordcloud(item):
 
 @app.route("/next")
 def hotel_page():
-    hotel_data = hotel_main.scrape_hotel_data(hotel_main.initialize_driver(), destination="Bahrain", date="2024-03-02")
+    hotel_data = hotel_main.scrape_hotel_data(hotel_main.initialize_driver(), mapper[destination], dep_date)
     l1 = []
     l2 = []
     l1,l2 = hotel_main.excel(hotel_data)
