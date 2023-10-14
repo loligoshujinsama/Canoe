@@ -86,7 +86,7 @@ def result():
         global dep_date
 
         destination = request.form.get("dest")
-        dep_date = request.form.get("date")
+        dep_date = location[destination]
 
     print("Chosen destination: "+ mapper[destination])
     global dict
@@ -94,7 +94,6 @@ def result():
     df = flight_scraper.excel(dict)
     line_graph.plot_linegraph(df)
     bar_graph.plot_bargraph(df)
-    #predictive_analysis.predictiveB(predictive_analysis.clean())
     list_for_html = airline_review.fetchAirlineReview(dict)[1]
 
     return render_template("display.html", list_for_html = list_for_html, destination=destination)
