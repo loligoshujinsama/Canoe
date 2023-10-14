@@ -17,7 +17,6 @@ import openpyxl
 db = {
     "Provider": "",
     "Price": "",
-    #"Time": "",
     "Airline": "",
     "Date": ""
 }
@@ -25,6 +24,9 @@ db = {
 ignored_exceptions=(NoSuchElementException,StaleElementReferenceException,)
 
 def provider(driver):
+    '''
+    This function grabs elements with the flight provider
+    '''
     array_provider = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
                         .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@class='M_JD-provider-name']"))):
@@ -32,6 +34,9 @@ def provider(driver):
     return array_provider
 
 def price(driver):
+    '''
+    This function grabs elements with the flight price
+    '''
     array_price = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
                         .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@class='f8F1-price-text']"))):
@@ -43,32 +48,19 @@ def price(driver):
 
 
 def flight_time_and_airline(driver):
-    counter = []
+    '''
+    This function grabs elements with the airline name
+    '''
     airline = []
     for element in WebDriverWait(driver, 5,ignored_exceptions=ignored_exceptions)\
                         .until(expected_conditions.presence_of_all_elements_located((By.XPATH, ".//div[@dir='auto']"))):
             airline.append(element.text)
-
-    # # Extract flight time and airline
-    # dt = []
-    # da = []
-
-    # for i in range(len(flight_time_departure)):
-    #     temp = []
-    #     temp = flight_time_departure[i].split('\n')
-    #     if len(temp) == 2:
-    #         dt.append(temp[0])
-    #         da.append(temp[1])
-    #     else:
-    #         dt.append(temp[0])
-    #         da.append(temp[2])
-
     return airline
 
-
-###Changes here###
-###Debugging####
 def dateAppender(dep_date):
+    '''
+    This function manipulates the date for the scraper
+    '''
     format = '%Y-%m-%d'
     dep_date = datetime.strptime(dep_date, format)
 
@@ -76,7 +68,6 @@ def dateAppender(dep_date):
     duration = 5
 
     dep_date = dep_date + timedelta(days=-7)
-    # print(dep_date)
     next = []
     for i in range(duration):
         a = str(dep_date)
@@ -88,24 +79,20 @@ def dateAppender(dep_date):
 
 
 def excel(db):
+    '''
+    This function converts the dictionary to a data frame
+    '''
     df = pda.DataFrame(db)
     return df
 
 
 def initiateScrape(departure, destination, dep_date):
-    
+    '''
+    This function starts the scraping of flight information. 
+    Requires input of departure (SIN), destination location and departure date sent from homepage.
+    '''
     chrome_options = Options()
-
-    '''
-    user_agents = [
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36',
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36'
-    ]
-    '''
     chrome_options.add_argument("--headless")
-    # Cannot do headless user-agent, so we add ourselves :)
     chrome_options.add_argument('--log-level=3')
     driver = webdriver.Chrome(options=chrome_options)
     stealth(driver,
@@ -119,7 +106,6 @@ def initiateScrape(departure, destination, dep_date):
        )
     big_prov = []
     big_price = []
-    #big_flighttime = []
     big_airline = []
     big_date = []
 
@@ -134,20 +120,20 @@ def initiateScrape(departure, destination, dep_date):
         t.sleep(5)
         airline = flight_time_and_airline(driver)
         t.sleep(5)
-        #big_flighttime.extend(dt)
         big_airline.extend(airline)
         for j in range(len(a)):
             big_date.append(i)
         t.sleep(5)
+
         db["Provider"] = big_prov
         db["Price"] = big_price
-        #db["Time"] = big_flighttime
         db["Airline"] = big_airline
         db["Date"] = big_date
+
         print(len(big_airline))
         print(len(big_date))
-        #print(len(big_flighttime))
         print(len(big_price))
         print(len(big_prov))
+        
         driver.refresh()
     return db
