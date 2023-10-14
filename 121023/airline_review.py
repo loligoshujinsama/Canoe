@@ -1,9 +1,10 @@
 import pandas as pda
 
-
-# Feed the db created by mainscraper
-# Return as a dictionary
 def fetchAirlineReview(dict):
+    '''
+    This functions fetches the airline name from the flight scraper, 
+    and filters reviews based on the airline name.
+    '''
     unique_airline = []
     for i in dict['Airline']:
         if i in unique_airline:
