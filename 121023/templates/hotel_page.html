@@ -50,16 +50,14 @@ li:not(:last-child) {
 
         <ul>
             {% for item in l1 %}
-               <li style="font-family: 'andale mono', monospace; font-size: 18px;">{{ item }}</li>
+               <li style="font-family: 'andale mono', monospace; font-size: 18px;">{{ item + 1 }}</li>
             {% endfor %}
         </ul>
         <ul>
-             {% for item in l2 %}
-               <li style="font-family: 'andale mono', monospace; font-size: 18px;">{{ item }}</li>
+            {% for item in l2 %}
+               <li style="font-family: 'andale mono', monospace; font-size: 18px;">{{ item[0] +' '+ item[1] }}</li>
             {% endfor %}
          </ul>
-
-         <p>{{ a }}</p>
 
 
 
