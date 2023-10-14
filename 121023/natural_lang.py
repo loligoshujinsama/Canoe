@@ -13,6 +13,7 @@ CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 EMOTION_TXT = CURRENT_PATH + r'\emotion.txt'
 
 '''
+    Downloadables for VADER:
     nltk.download('vader_lexicon')
     nltk.download('punkt')
     nltk.download('stopwords')
@@ -20,7 +21,11 @@ EMOTION_TXT = CURRENT_PATH + r'\emotion.txt'
 
 
 def pad_list(dictionary):
-    # If the dictionary has uneven array length, cannot convert to dataframe
+    '''
+    This function pads the dictionary in the case of uneven array lengths.
+    This is required to gracefully convert to dataframe as some airlines 
+    may not have equal number of reviews.
+    '''
     maxNo = []
     for i in dictionary:
         maxNo.append(len(dictionary[i]))
@@ -32,12 +37,18 @@ def pad_list(dictionary):
 
 
 def sentiment_clean_text(text):
+    '''
+    This function lower all cases and removes punctuations.
+    '''
     text = text.lower()
     text = text.translate(str.maketrans('', '', string.punctuation))
     return text
 
 
 def emotion_tokenise(text):
+    '''
+    This function tokenises the words and removes stopwords.
+    '''
     text = word_tokenize(text, "english")
     stop_words = stopwords.words('english')
     text_list = []
@@ -49,6 +60,11 @@ def emotion_tokenise(text):
 
 
 def emotion_sanitize(file, emotion_dict):
+    '''
+    This function further sanitizes the emotion dictionary, 
+    to remove breaks, commas and apostrophes.
+    Returns sanitized emotion dictionary.
+    '''
     for line in file:
         clear_line = line.replace("\n", '').replace(",", '').replace("'", '').strip()
         word, emotion = clear_line.split(':')
@@ -58,7 +74,13 @@ def emotion_sanitize(file, emotion_dict):
 
 
 def sentiment_analyze(text):
-    scores = SentimentIntensityAnalyzer().polarity_scores(text)  # return dictionary of scores
+    '''
+    This function utilizes VADER's SentimentIntensityAnalyzer() to 
+    determine polarity scores (negative or positive)
+    '''
+
+    # return dictionary of scores
+    scores = SentimentIntensityAnalyzer().polarity_scores(text)  
     if (scores['neg'] > scores['pos']):
         return 0
     else:
@@ -66,6 +88,11 @@ def sentiment_analyze(text):
 
 
 def initiateNLP(dict, airline_name):
+    '''
+    This function initiates the NLP to process the dictionary passed from 
+    the initial flight scraping. Airline name is retrieved from fetchAirlineReview
+    as argument for the function.
+    '''
     df = pda.DataFrame(pad_list(fetchAirlineReview(dict)[0]))
     emotion_dict = {}
 
@@ -91,7 +118,7 @@ def initiateNLP(dict, airline_name):
                 # get the review of index i
                 text = str(df[airline_name][i])
 
-                # step 1: let's clean the text and assign cleaned list to dataFrame
+                # step 1: clean the text
                 cleaned_text = sentiment_clean_text(text)
 
                 # Step 2: sentiment Analysis
@@ -107,17 +134,6 @@ def initiateNLP(dict, airline_name):
                     if word in cleaned_text_list:
                         temp_emotion_list.append(emotion_dict[word])
 
-            '''
-            Bar graph:
-            fig, ax = plt.subplots()
-            ax.bar(mood, count)
-            fig.autofmt_xdate()
-            fig.set_figwidth(20)
-            fig.set_figheight(10)
-            plt.xlabel('Emotions')
-            plt.ylabel('Frequency')
-            '''
-
             words_score_dict = Counter(temp_emotion_list)
             big_emotions = list((key, value) for (key, value) in words_score_dict.items())
             mood = []
@@ -126,6 +142,7 @@ def initiateNLP(dict, airline_name):
                 mood.append(key)
                 count.append(value)
 
+            # Plotting
             wordcloud = WordCloud(background_color='black', width=800, height=500, random_state=21,
                                   max_font_size=110).generate_from_frequencies(words_score_dict)
             plt.figure(figsize=(10, 7))
@@ -133,8 +150,7 @@ def initiateNLP(dict, airline_name):
             plt.axis('off')
             plt.savefig(f'static/{airline_name}.png', dpi=300, bbox_inches='tight')
             print(f"{airline_name}.png created")
-    except Exception as e:
-        print(e)
+    except Exception:
         print(f"{airline_name} has no existing reviews")
         pass
 
