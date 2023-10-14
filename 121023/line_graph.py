@@ -29,30 +29,25 @@ def plot_linegraph(dataframe):
     the column values of 'Price', 'Date' and 'Airline'. After which
     it will save the graph object into a HTML file.
     """
-    pd.set_option('display.max_rows', 500)
-    pd.set_option('display.max_columns', 500)
-    pd.set_option('display.width', 300)
-    print(dataframe)
     median_prices_dataframe = dataframe.groupby('Date')['Price'].apply(custom_median).reset_index()
 
     merged_df = pd.merge(median_prices_dataframe, dataframe, on=['Date', 'Price'], how='left')
-
+    #Add a hover over box that shows airline, provider, and price
     merged_df['hover_text'] = merged_df.apply(
         lambda row: f"Airline: {row['Airline']}<br>Provider: {row['Provider']}<br>Price: {row['Price']}", axis=1)
 
     merged_df['Airline'].fillna('N/A', inplace=True)
     merged_df['Provider'].fillna('N/A', inplace=True)
     fig = go.Figure()
-
+    #Plot a line graph where the date and price represent the x and y axis respectively
     fig.add_trace(go.Scatter(x=merged_df['Date'], y=merged_df['Price'], mode='lines', name='Trend'))
-
+    # Add airline name when hovering over a plotted point
     fig.add_trace(go.Scatter(x=merged_df['Date'], y=merged_df['Price'], mode='markers', name='Median Price',
                              marker=dict(color='grey', size=8), hovertext=merged_df['hover_text'], hoverinfo='text'))
 
     fig.update_xaxes(tickvals=merged_df['Date'], tickformat='%Y-%m-%d', title_text='Date')
     fig.update_yaxes(title_text='Price')
-    fig.write_html(HTML_FILE)
-
+    fig.write_html(HTML_FILE)                #Save graph object into a HTML file.
 
 
 
