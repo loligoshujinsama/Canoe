@@ -24,11 +24,15 @@ def custom_median(values):
 
 
 def plot_linegraph(dataframe):
+    """
+    This function takes in a dataframe and plots a line graph using
+    the column values of 'Price', 'Date' and 'Airline'. After which
+    it will save the graph object into a HTML file.
+    """
     pd.set_option('display.max_rows', 500)
     pd.set_option('display.max_columns', 500)
     pd.set_option('display.width', 300)
     print(dataframe)
-    #dataframe['Price'] = pd.to_numeric(dataframe['Price'].str.replace('$', '').str.replace(',', ''))
     median_prices_dataframe = dataframe.groupby('Date')['Price'].apply(custom_median).reset_index()
 
     merged_df = pd.merge(median_prices_dataframe, dataframe, on=['Date', 'Price'], how='left')
