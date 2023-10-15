@@ -69,9 +69,7 @@ def scrape_hotel_data(driver, destination, date):
         # if hotel is sold out, just ignore the data for that hotel and carry on
         except NoSuchElementException:
             pass
-
     return name_list, price_list, rating_list
-
 
 def generate_word_cloud(words):
     # Create a WordCloud object
@@ -151,7 +149,6 @@ def gettop10(df):
     for x in range(len(ListOfHotelRatings)):
         if ListOfHotelRatings[x] != "No ratings found":
             if float(ListOfHotelRatings[x]) > Base:
-                # Base = float(ListOfHotelRatings[x])
                 ListTo2ndSortRATING.append(ListOfHotelRatings[x])
                 ListTo2ndSortPRICE.append(ListOfHotelPrice[x])
                 ListTo2ndSortHOTELNAME.append(ListOfHotels[x])
@@ -159,11 +156,9 @@ def gettop10(df):
                 ForCombine = str(ListOfHotels[x]) + "  " + str(ListOfHotelPrice[x])
                 ListTo2ndSortCOMBINEDHOTELNAMEPRICE.append(ForCombine)
 
-    # print(ListTo2ndSortPRICE, ListTo2ndSortRATING, ListTo2ndSortHOTELNAME)
-    #combine all 2 first to a dic maybe and compare?
-     #Dic2 = dict(zip(ListTo2ndSortHOTELNAME, ListTo2ndSortRATING))
     Dic2 = dict(zip(ListTo2ndSortCOMBINEDHOTELNAMEPRICE, ListTo2ndSortRATING))
     Dic2Sprted = {}
+    Dic2 = {key: float(value) for key, value in Dic2.items()}
     Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
     Dic3Sprted = {}
     Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
