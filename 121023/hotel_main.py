@@ -160,6 +160,7 @@ def gettop10(df):
     Dic2Sprted = {}
     Dic2 = {key: float(value) for key, value in Dic2.items()}
     Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
+    Dic2Sprted = [(key, str(value)) for key, value in Dic2Sprted]
     Dic3Sprted = {}
     Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
     print(Dic3Sprted)
