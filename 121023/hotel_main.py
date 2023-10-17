@@ -16,13 +16,13 @@ CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 STATIC_PATH = CURRENT_PATH + r'\static'
 PICTURE = Path(STATIC_PATH) / 'CLOUDHotelBasedOnRating.png'
 
-
+# start selenium driver for scraping
 def initialize_driver():
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument('--log-level=3')
     driver = webdriver.Chrome(options=options)
-    # To bypass captcha :)
+    # Selenium-stealth to bypass captcha
     stealth(driver,
        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.105 Safari/537.36',
        languages=["en-US", "en"],
@@ -34,8 +34,9 @@ def initialize_driver():
        )
     return driver
 
-
+# This function scrapes every hotel based on the destination and date parameters
 def scrape_hotel_data(driver, destination, date):
+    # cleans up the date format
     format = '%Y-%m-%d'
     a = datetime.strptime(date, format)
     end_date = str(a).split(' ')[0]
@@ -52,7 +53,7 @@ def scrape_hotel_data(driver, destination, date):
     # search for all hotels based on the XPATH tied to each hotel block
     hotel_elements = driver.find_elements(By.XPATH, "//div[@class='uitk-layout-flex uitk-layout-flex-block-size-full-size uitk-layout-flex-flex-direction-column uitk-layout-flex-justify-content-space-between']")
 
-    # extract each hotel's name, price and rating under the hotel block
+    # extract each hotel's name, price and rating under the hotel block according to their XPATH
     for hotel_element in hotel_elements:
         try:
             hotel_name = hotel_element.find_element(By.XPATH, ".//h3[@class='uitk-heading uitk-heading-5 overflow-wrap uitk-layout-grid-item uitk-layout-grid-item-has-row-start']")
@@ -61,6 +62,7 @@ def scrape_hotel_data(driver, destination, date):
             price = hotel_price.text if hotel_price else 'Sold out'
 
             hotel_rating = hotel_element.find_elements(By.XPATH, ".//span[@class='uitk-badge-base-text']")
+            # will label a hotel without ratings if the hotel_rating element is not found in the webpage
             rating = hotel_rating[0].text if hotel_rating else 'No ratings found'
 
             name_list.append(hotel_name.text)
@@ -117,12 +119,9 @@ def excel(data):
     }
     df = pd.DataFrame(db)
     WCHotelRating(df)
-    # top10_dic = {}
-    # top10_dic = gettop10(df)
     l1 = []
     l2 = []
     l1, l2 = gettop10(df)
-    # print(top10_dic)
     return l1, l2
 
 
@@ -158,10 +157,12 @@ def gettop10(df):
 
     Dic2 = dict(zip(ListTo2ndSortCOMBINEDHOTELNAMEPRICE, ListTo2ndSortRATING))
     Dic2Sprted = {}
+    # converts the values to float, sorts them, and then converts back to string
     Dic2 = {key: float(value) for key, value in Dic2.items()}
     Dic2Sprted = sorted(Dic2.items(), key=lambda item: item[1] , reverse=True)
     Dic2Sprted = [(key, str(value)) for key, value in Dic2Sprted]
     Dic3Sprted = {}
+    # this is to get the first 10 items in the dictionary for the top 10 hotels
     Dic3Sprted = {key: value for key, value in enumerate(Dic2Sprted) if key < 10}
     print(Dic3Sprted)
     hotelnamelist = list(Dic3Sprted.keys())
